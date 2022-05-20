@@ -22,7 +22,8 @@ enum class TypVzdelania {
 
 enum class Pohlavie {
 	Muz,
-	Zena
+	Zena,
+	Obe
 };
 
 enum class VekovaSkupina {

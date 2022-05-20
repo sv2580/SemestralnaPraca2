@@ -154,7 +154,7 @@ inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) 
 {
 	int minindex = min;
 	int maxindex = max;
-	if (minindex > maxindex || min < 0 || min > 100 || max < 0 || max > 100)
+	if (min > max || min < 0 || min > 100 || max < 0 || max > 100)
 		return -1;
 
 	if (pohlavie == Pohlavie::Zena) {
@@ -166,6 +166,13 @@ inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) 
 	for (int i = minindex; i < maxindex; i++)
 	{
 		pocet += this->_vek->at(i)->getPocet();
+	}
+
+	if (pohlavie == Pohlavie::Obe) {
+		for (int i = minindex+100; i < maxindex+100; i++)
+		{
+			pocet += this->_vek->at(i)->getPocet();
+		}
 	}
 
 

@@ -57,7 +57,7 @@ inline void FilterWithCriterion<O, V>::filterTable(structures::SequenceTable<std
 		}
 	}
 
-	//*table = *result;
+	table->assign(*result);
 
 }
 
