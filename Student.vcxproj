@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Criterion.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Priklady.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Obec.h" />
     <ClInclude Include="Okres.h" />
     <ClInclude Include="Priklady.h" />
+    <ClInclude Include="SelectionCriterion.h" />
     <ClInclude Include="Stat.h" />
     <ClInclude Include="structures\array.h" />
     <ClInclude Include="structures\array_list.h" />

@@ -88,7 +88,7 @@ namespace structures
 template <typename R>
 class SortCriterion {
 public:
-	void SortVzostupne(int min, int max, structures::UnsortedSequenceTable<std::string, UzemnaJednotka*>& table, CriterionUzemnaJednotka<R>* criterion) {
+	void SortVzostupne(int min, int max, structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>& table, CriterionUzemnaJednotka<R>* criterion) {
 		int index = (min + max) / 2;
 		UzemnaJednotka* data = table.getItemAtIndex((min + max) / 2).accessData();
 		R pivot = criterion->evaluate(*data);
@@ -128,7 +128,7 @@ public:
 
 	}
 
-	void SortZostupne(int min, int max, structures::UnsortedSequenceTable<std::string, UzemnaJednotka*>& table, CriterionUzemnaJednotka<R>* criterion) {
+	void SortZostupne(int min, int max, structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>& table, CriterionUzemnaJednotka<R>* criterion) {
 		int index = (min + max) / 2;
 		UzemnaJednotka* data = table.getItemAtIndex((min + max) / 2).accessData();
 		R pivot = criterion->evaluate(*data);

@@ -89,10 +89,15 @@ private:
 public:
 	CriterionVekPocet(Pohlavie pohlavie, int vek) : _pohlavie(pohlavie), 
 	_vek(vek) {};
-	int evaluate(const UzemnaJednotka& object) override;
+
+	// Inherited via CriterionUzemnaJednotka
+	virtual int evaluate(const UzemnaJednotka& object) override;
+	//int evaluate(const UzemnaJednotka& object) override;
 };
 
-inline int CriterionVekPocet::evaluate(const UzemnaJednotka& object) {
+
+inline int CriterionVekPocet::evaluate(const UzemnaJednotka& object)
+{
 	return object.getVekPocet(_pohlavie, _vek);
 }
 

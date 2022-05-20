@@ -17,7 +17,7 @@ private:
 	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_obec;
 
 	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* tab_all_sorted;
-	//structures::UnortedSequenceTable<std::string, UzemnaJednotka*>* tab_all_unsorted;
+	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tab_all_unsorted;
 
 	structures::Array<TypVzdelania>* typyVzdelania; // pre jednoduchsie vypisovanie typov
 
@@ -28,6 +28,10 @@ public:
 
 	void Priklad1Vypis();
 	void Priklad2Filtrovanie();
+	void Priklad3aTriedenieVekPodiel();
+	void Priklad3bTriedenieVekovaSkupinaPocet();
+
+
 	void Priklad3aTriedenieNazvu();
 	void Priklad3bTriedeniePoctu();
 	void Priklad3cTriedeniePodielu();
@@ -35,9 +39,12 @@ public:
 
 
 private:
+
+	void FiltrovaniePreTriedenie(structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, 
+		Pohlavie* vybranePohl, int* min, int* max, VekovaSkupina* vybranaVekovaSkupina);
+
 	void Vypis(structures::SequenceTable<std::wstring, UzemnaJednotka*>& tabulka, TypVzdelania typNaVypis, bool vypisPocet, bool vypisPodiel);
 	void spojenieTabuliek(structures::SequenceTable<std::wstring,UzemnaJednotka*>* table);
-	void Filtrovanie(structures::UnsortedSequenceTable<std::wstring,UzemnaJednotka*>* table, char uloha, TypVzdelania* vybrany);
 	std::wstring VypisEnumTyp(TypUzemnejJednotky typ);
 	std::wstring VypisEnumVzdelanie(TypVzdelania typ);
 	std::wstring VypisEnumPohlavie(Pohlavie typ);
@@ -47,6 +54,7 @@ private:
 		std::wstring wstr(word.begin(), word.end());
 		return wstr;
 	}
+	void Filtrovanie(structures::UnsortedSequenceTable<std::wstring,UzemnaJednotka*>* table, char uloha, TypVzdelania* vybrany);
 
 		//void VyberUzemnejJednotky(structures::SequenceTable<std::string, UzemnaJednotka*>* table );
 

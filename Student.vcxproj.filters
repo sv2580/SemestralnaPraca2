@@ -42,6 +42,9 @@
     <ClCompile Include="Priklady.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Criterion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Criterion.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="Vek.h">
       <Filter>Header Files\UzemneJednotky</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionCriterion.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

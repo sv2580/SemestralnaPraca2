@@ -26,7 +26,7 @@ int main()
         std::wcout << "4. Priklad 3B - Triedenie podla poctu" << std::endl;
         std::wcout << "5. Priklad 3C - Triedenie podla podielu" << std::endl;
 
-        std::cin >> priklad;
+        std::wcin >> priklad;
         if (priklad == 0) {
             pokracuj = true;
         }
@@ -48,5 +48,6 @@ int main()
 
     }
     delete input;
+    return 0;
 }
 
