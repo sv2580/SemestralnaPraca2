@@ -741,7 +741,7 @@ void Priklady::Priklad4aNajmensiaVekovaSkupina()
 
 	if (cislo == 2)
 		vekovaSkupina = VekovaSkupina::Poproduktivni;
-
+	/*
 	SelectionMinVekovaSkupina<std::wstring>* select = new SelectionMinVekovaSkupina<std::wstring>(vekovaSkupina);
 	UzemnaJednotka* najlepsiaUzemnaJednotka = select->selectBest(tabulkaNaPracovanie);	const UzemnaJednotka* current = najlepsiaUzemnaJednotka;
 
@@ -765,7 +765,7 @@ void Priklady::Priklad4aNajmensiaVekovaSkupina()
 		else
 			pokracuj = true;
 	}
-	delete select;
+	delete select;*/
 	delete tabulkaNaPracovanie;
 }
 
@@ -795,7 +795,7 @@ void Priklady::Priklad4bNajvacsiaVekovaSkupina()
 
 	if (cislo == 2)
 		vekovaSkupina = VekovaSkupina::Poproduktivni;
-
+	/*
 
 	SelectionMaxVekovaSkupina<std::wstring>* select = new SelectionMaxVekovaSkupina<std::wstring>(vekovaSkupina);
 	UzemnaJednotka* najlepsiaUzemnaJednotka = (select->selectBest(tabulkaNaPracovanie));	const UzemnaJednotka* current = najlepsiaUzemnaJednotka;
@@ -820,7 +820,7 @@ void Priklady::Priklad4bNajvacsiaVekovaSkupina()
 		else
 			pokracuj = true;
 	}
-	delete select;
+	delete select;*/
 	delete tabulkaNaPracovanie;
 }
 

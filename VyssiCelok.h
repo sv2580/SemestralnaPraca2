@@ -1,10 +1,12 @@
 #pragma once
 #include "UzemnaJednotka.h"
 #include "structures/array_list.h"
+#include "Vzdelanie.h"
 
 class VyssiCelok : public UzemnaJednotka {
 protected:
 	structures::ArrayList<UzemnaJednotka*>* _nizsieCelky = new structures::ArrayList<UzemnaJednotka*>();
+	structures::Array<Vzdelanie*>* _vzdelania = new structures::Array<Vzdelanie*>(8);
 
 public:
 	VyssiCelok(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* vyssiCelok) : UzemnaJednotka(typ, nazov, vyssiCelok) {
@@ -13,8 +15,12 @@ public:
 	~VyssiCelok() {
 		delete _nizsieCelky;
 		_nizsieCelky = nullptr;
+		delete _vzdelania;
+		_vzdelania = nullptr;
 	}
 	
+	void VypocitajVzdelania();
+
 	structures::ArrayList<UzemnaJednotka*>& getZoznamNizsieCelky() {
 		return *_nizsieCelky;
 	}
@@ -54,6 +60,10 @@ public:
 	virtual const double getIntervalVekPodiel(Pohlavie pohlavie, int min, int max) const override;
 
 };
+
+inline void VyssiCelok::VypocitajVzdelania()
+{
+}
 
 inline const bool VyssiCelok::patriDoCelku(UzemnaJednotka* celok) const
 {
