@@ -157,12 +157,17 @@ private:
 	VekovaSkupina _skupina;
 public:
 	CriterionVekovaSkupinaPocet(VekovaSkupina skupina) : _skupina(skupina){};
-	int evaluate(const UzemnaJednotka& object) override;
+
+	// Inherited via CriterionUzemnaJednotka
+	virtual int evaluate(const UzemnaJednotka& object) override;
 };
 
-inline int CriterionVekovaSkupinaPocet::evaluate(const UzemnaJednotka& object) {
+int CriterionVekovaSkupinaPocet::evaluate(const UzemnaJednotka& object)
+{
 	return object.getVekovaSkupinaPocet(_skupina);
+
 }
+
 
 
 class CriterionVekovaSkupinaPodiel: public CriterionUzemnaJednotka<double>{

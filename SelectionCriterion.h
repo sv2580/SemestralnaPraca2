@@ -16,28 +16,33 @@ public:
 		delete _criterion;
 	}
 
-	O& selectBest(structures::SequenceTable<K,O>* table);
+	O* selectBest(structures::SequenceTable<K,O*>* table);
 };
 
 
 template<typename K, typename O, typename V>
-inline O& SelectionCriterion<K, O, V>::selectBest(structures::SequenceTable<K,O>* table)
+inline O* SelectionCriterion<K, O, V>::selectBest(structures::SequenceTable<K,O*>* table)
 {
-	O& bestObject = nullptr;
-	O& testedObject = *tableItem->accessData(); // pozor na *!!!
-	V testedValue = criterion_->evaluate(testedObject);
-	if (isTestedValueBetter(bestValue, testedValue)) {
-		bestValue = testedValue;
-		bestObject = testedObject;
+	V bestValue = NULL;
+	O* bestObject = nullptr;
+	for (structures::TableItem<K, O>* tableItem : *table)
+	{
+		O* testedObject = *tableItem->accessData(); // pozor na *!!!
+		V testedValue = _criterion->evaluate(testedObject);
+		if (isTestedValueBetter(bestValue, testedValue)) {
+			bestValue = testedValue;
+			bestObject = testedObject;
+		}
 	}
 
+	
 	return bestObject;
 }
 
 template<typename K, typename O, typename V>
 class SelectionCriterionMin : public SelectionCriterion<K, O, V> {
 public:
-	SelectionCriterionMin(Criterion<O, V>* criterion) : SelectionCriterion(criterion) {}
+	SelectionCriterionMin(Criterion<O, V>* criterion) : SelectionCriterion<K,O,V>(criterion) {}
 protected:
 	bool isTestedValueBetter(V bestNow, V bestTested) override;
 };
@@ -45,7 +50,7 @@ protected:
 template<typename K, typename O, typename V>
 class SelectionCriterionMax : public SelectionCriterion<K, O, V> {
 public:
-	SelectionCriterionMax(Criterion<O, V>* criterion) : SelectionCriterion(criterion) {}
+	SelectionCriterionMax(Criterion<O, V>* criterion) : SelectionCriterion<K, O, V>(criterion) {}
 protected:
 	bool isTestedValueBetter(V bestNow, V bestTested) override;
 
@@ -62,3 +67,19 @@ inline bool SelectionCriterionMax<K, O, V>::isTestedValueBetter(V bestNow, V bes
 {
 	return bestTested > bestNow;
 }
+
+template <typename K>
+class SelectionMinVekovaSkupina : public SelectionCriterionMin<K, UzemnaJednotka, int> {
+public:
+	SelectionMinVekovaSkupina(VekovaSkupina vekovaSkupina ) :
+		SelectionCriterionMin<K, UzemnaJednotka, int>(new CriterionVekovaSkupinaPocet(vekovaSkupina))
+	{}
+};
+
+template <typename K>
+class SelectionMaxVekovaSkupina : public SelectionCriterionMax<K, UzemnaJednotka, int> {
+public:
+	SelectionMaxVekovaSkupina(VekovaSkupina vekovaSkupina) :
+		SelectionCriterionMax<K, UzemnaJednotka, int>(new CriterionVekovaSkupinaPocet(vekovaSkupina))
+	{}
+};

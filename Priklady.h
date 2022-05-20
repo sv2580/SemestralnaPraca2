@@ -7,6 +7,10 @@
 #include "Input.h"
 #include "Criterion.h"
 #include "Stat.h"
+#include "Filter.h"
+#include "structures/quick_sort.h"
+#include "SelectionCriterion.h"
+
 
 class Priklady
 {
@@ -27,21 +31,28 @@ public:
 	
 
 	void Priklad1Vypis();
+
 	void Priklad2Filtrovanie();
+
 	void Priklad3aTriedenieVekPodiel();
 	void Priklad3bTriedenieVekovaSkupinaPocet();
-
 
 	void Priklad3aTriedenieNazvu();
 	void Priklad3bTriedeniePoctu();
 	void Priklad3cTriedeniePodielu();
 
+	void Priklad4aNajmensiaVekovaSkupina();
+	void Priklad4bNajvacsiaVekovaSkupina();
 
 
 private:
 
 	void FiltrovaniePreTriedenie(structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, 
 		Pohlavie* vybranePohl, int* min, int* max, VekovaSkupina* vybranaVekovaSkupina);
+
+	void Filtrovanie(structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, TypVzdelania* vybrany);
+
+	void FiltrovaniePreVyber(structures::SequenceTable<std::wstring, UzemnaJednotka*>* table);
 
 	void Vypis(structures::SequenceTable<std::wstring, UzemnaJednotka*>& tabulka, TypVzdelania typNaVypis, bool vypisPocet, bool vypisPodiel);
 	void spojenieTabuliek(structures::SequenceTable<std::wstring,UzemnaJednotka*>* table);
@@ -54,7 +65,6 @@ private:
 		std::wstring wstr(word.begin(), word.end());
 		return wstr;
 	}
-	void Filtrovanie(structures::UnsortedSequenceTable<std::wstring,UzemnaJednotka*>* table, char uloha, TypVzdelania* vybrany);
 
 		//void VyberUzemnejJednotky(structures::SequenceTable<std::string, UzemnaJednotka*>* table );
 

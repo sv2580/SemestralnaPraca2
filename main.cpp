@@ -25,8 +25,12 @@ int main()
         std::wcout << "3. Priklad 3A - Triedenie podla nazvu" << std::endl;
         std::wcout << "4. Priklad 3B - Triedenie podla poctu" << std::endl;
         std::wcout << "5. Priklad 3C - Triedenie podla podielu" << std::endl;
+        std::wcout << "6. Priklad 3A - Triedenie podla podielu veku" << std::endl;
+        std::wcout << "7. Priklad 3B - Triedenie podla poctu vekovej skupiny" << std::endl << std::endl;
+        std::wcout << "8. Priklad 4A - Najdenie najlepsieho s najmensim poctom vekovej skupiny" << std::endl;
+        std::wcout << "9. Priklad 4B - Najdenie najlepsieho s najvacsim poctom vekovej skupiny" << std::endl;
 
-        std::wcin >> priklad;
+        std::cin >> priklad;
         if (priklad == 0) {
             pokracuj = true;
         }
@@ -43,7 +47,19 @@ int main()
             input->Priklad3bTriedeniePoctu();
         } 
         else if (priklad == 5) {
-            input->Priklad3bTriedeniePoctu();
+            input->Priklad3cTriedeniePodielu();
+        }
+        else if (priklad == 6) {
+            input->Priklad3aTriedenieVekPodiel();
+        }
+        else if (priklad == 7) {
+            input->Priklad3bTriedenieVekovaSkupinaPocet();
+        }
+        else if (priklad == 8) {
+            input->Priklad4aNajmensiaVekovaSkupina();
+        }
+        else if (priklad == 9) {
+            input->Priklad4bNajvacsiaVekovaSkupina();
         }
 
     }

@@ -1,6 +1,5 @@
 #include "Priklady.h"
-#include "Filter.h"
-#include "structures/quick_sort.h"
+
 
 Priklady::Priklady()
 {
@@ -106,7 +105,7 @@ void Priklady::Priklad1Vypis()
 
 void Priklady::Priklad2Filtrovanie()
 {
-	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_unsorted);
+	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_sorted);
 	int filter = -1;
 	bool pokracuj = false;
 
@@ -181,7 +180,7 @@ void Priklady::Priklad2Filtrovanie()
 					break;
 				}
 				FilterTyp* fTyp = new FilterTyp(vybranyTyp);
-				fTyp->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+				fTyp->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 				vybrane = true;
 			}
 		}
@@ -191,7 +190,7 @@ void Priklady::Priklad2Filtrovanie()
 			std::wcout << std::endl << "Zadajte nazov vyssej uzemnej jednotky ku ktorej maju vybrane uzemne jednotky prisluchat" << std::endl;
 			std::wcin >> nazov;
 			FilterPrislusnost* fPrislusnost = new FilterPrislusnost(nazov, true);
-			fPrislusnost->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			fPrislusnost->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 			delete fPrislusnost;
 
 		}
@@ -225,7 +224,7 @@ void Priklady::Priklad2Filtrovanie()
 				max = INT_MAX;
 			}
 			FilterIntPocet* fPocet = new FilterIntPocet(vybranyTyp, min, max);
-			fPocet->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			fPocet->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 			delete fPocet;
 		}
 		else if (filter == 4 && !vzdelaniePodiel) {
@@ -258,7 +257,7 @@ void Priklady::Priklad2Filtrovanie()
 				max = LLONG_MAX;
 			}
 			FilterIntPodiel* fPodiel = new FilterIntPodiel(vybranyTyp, min, max);
-			fPodiel->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			fPodiel->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 			delete fPodiel;
 		}
 		else if (filter == 5 && !vekPocet) {
@@ -306,7 +305,7 @@ void Priklady::Priklad2Filtrovanie()
 				vybranePocet = Pohlavie::Obe;
 			}
 			FilterIntVekPocet* fPocet = new FilterIntVekPocet(vybranePocet, minPocet,maxPocet,minVekPocet,maxVekPocet);
-			fPocet->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			fPocet->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 			delete fPocet;
 
 		}
@@ -355,7 +354,7 @@ void Priklady::Priklad2Filtrovanie()
 				vybranePodiel = Pohlavie::Obe;
 			}
 			FilterIntVekPodiel* fPodiel = new FilterIntVekPodiel(vybranePodiel, minPocet, minPocet, minVekPodiel, maxVekPodiel);
-			fPodiel->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			fPodiel->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 			delete fPodiel;
 		}
 		else if (filter == 7 && !vekovaSkupinaPocet) {
@@ -399,7 +398,7 @@ void Priklady::Priklad2Filtrovanie()
 				break;
 			}
 			FilterIntVekovaSkupinaPocet* fPocet = new FilterIntVekovaSkupinaPocet(vekovaSkupina, minPocet, minPocet);
-			fPocet->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			fPocet->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 			delete fPocet;
 
 		}
@@ -446,7 +445,7 @@ void Priklady::Priklad2Filtrovanie()
 				break;
 			}
 			FilterIntVekovaSkupinaPodiel* fPodiel = new FilterIntVekovaSkupinaPodiel(vekovaSkupina, minPocet, minPocet);
-			fPodiel->filterTable(tabulkaNaPracovanie, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			fPodiel->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 			delete fPodiel;
 
 		}
@@ -574,7 +573,6 @@ void Priklady::Priklad3aTriedenieVekPodiel()
 	delete tabulkaNaPracovanie;
 	return;
 }
-
 void Priklady::Priklad3bTriedenieVekovaSkupinaPocet()
 {
 	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_unsorted);
@@ -617,7 +615,7 @@ void Priklady::Priklad3bTriedenieVekovaSkupinaPocet()
 }
 
 void Priklady::Priklad3aTriedenieNazvu() {
-	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>();
+	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_unsorted);
 	Filtrovanie(tabulkaNaPracovanie, 'a', nullptr);
 	bool pokracovat = false;
 	std::wcout << "1. Vzostupne " << std::endl << "2. Zostupne" << std::endl;
@@ -650,7 +648,7 @@ void Priklady::Priklad3aTriedenieNazvu() {
 }
 void Priklady::Priklad3bTriedeniePoctu()
 {
-	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>();
+	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_unsorted);
 	TypVzdelania vzdelanie = TypVzdelania::Null;
 	Filtrovanie(tabulkaNaPracovanie, 'b', &vzdelanie);
 	bool pokracovat = false;
@@ -685,7 +683,7 @@ void Priklady::Priklad3bTriedeniePoctu()
 }
 void Priklady::Priklad3cTriedeniePodielu()
 {
-	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>();
+	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_unsorted);
 	TypVzdelania vzdelanie = TypVzdelania::Null;
 	Filtrovanie(tabulkaNaPracovanie, 'c', &vzdelanie);
 	bool pokracovat = false;
@@ -719,6 +717,112 @@ void Priklady::Priklad3cTriedeniePodielu()
 	return;
 }
 
+void Priklady::Priklad4aNajmensiaVekovaSkupina()
+{
+	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_sorted);
+	FiltrovaniePreVyber(tabulkaNaPracovanie);
+	bool pokracuj = false;
+	int cislo;
+	while (!pokracuj)
+	{
+		std::wcout << "Zadajte ktoru vekovu skupinu chcete pouzit: " << std::endl;
+		std::wcout << "[1.] Predproduktivni" << std::endl;
+		std::wcout << "[2.] Produktivni" << std::endl;
+		std::wcout << "[3.] Poproduktivni" << std::endl;
+
+		std::wcin >> cislo;
+		if (cislo >= 1 && cislo <= 3)
+			pokracuj = true;
+	}
+	VekovaSkupina vekovaSkupina = VekovaSkupina::Predproduktivni;
+
+	if(cislo == 2)
+		vekovaSkupina = VekovaSkupina::Produktivni;
+
+	if (cislo == 2)
+		vekovaSkupina = VekovaSkupina::Poproduktivni;
+
+	SelectionMinVekovaSkupina<std::wstring>* select = new SelectionMinVekovaSkupina<std::wstring>(vekovaSkupina);
+	UzemnaJednotka* najlepsiaUzemnaJednotka = select->selectBest(tabulkaNaPracovanie);	const UzemnaJednotka* current = najlepsiaUzemnaJednotka;
+
+	pokracuj = false;
+	while (!pokracuj) {
+
+		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(current->getTyp()) << std::endl << L"Nazov: ";
+		std::wcout << current->getNazov() << std::endl;
+
+		std::wcout << " Hodnoty vekovovych skupin: " << std::endl;
+
+		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Predproduktivni) + L" : " +
+			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Predproduktivni)) << std::endl;
+		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Produktivni) + L" : " +
+			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Produktivni)) << std::endl;
+		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
+			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Poproduktivni)) << std::endl;
+
+		if (current->getTyp() != TypUzemnejJednotky::Stat)
+			current = current->getVyssiCelok();
+		else
+			pokracuj = true;
+	}
+	delete select;
+	delete tabulkaNaPracovanie;
+}
+
+void Priklady::Priklad4bNajvacsiaVekovaSkupina()
+{
+	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* tabulkaNaPracovanie = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>(*tab_all_sorted);
+	FiltrovaniePreVyber(tabulkaNaPracovanie);
+
+
+	bool pokracuj = false;
+	int cislo;
+	while (!pokracuj)
+	{
+		std::wcout << "Zadajte ktoru vekovu skupinu chcete pouzit: " << std::endl;
+		std::wcout << "[1.] Predproduktivni" << std::endl;
+		std::wcout << "[2.] Produktivni" << std::endl;
+		std::wcout << "[3.] Poproduktivni" << std::endl;
+
+		std::wcin >> cislo;
+		if (cislo >= 1 && cislo <= 3)
+			pokracuj = true;
+	}
+	VekovaSkupina vekovaSkupina = VekovaSkupina::Predproduktivni;
+
+	if (cislo == 2)
+		vekovaSkupina = VekovaSkupina::Produktivni;
+
+	if (cislo == 2)
+		vekovaSkupina = VekovaSkupina::Poproduktivni;
+
+
+	SelectionMaxVekovaSkupina<std::wstring>* select = new SelectionMaxVekovaSkupina<std::wstring>(vekovaSkupina);
+	UzemnaJednotka* najlepsiaUzemnaJednotka = (select->selectBest(tabulkaNaPracovanie));	const UzemnaJednotka* current = najlepsiaUzemnaJednotka;
+
+	pokracuj = false;
+	while (!pokracuj) {
+
+		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(current->getTyp()) << std::endl << L"Nazov: ";
+		std::wcout << current->getNazov() << std::endl;
+
+		std::wcout << " Hodnoty vekovovych skupin: " << std::endl;
+
+		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Predproduktivni) + L" : " +
+			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Predproduktivni)) << std::endl;
+		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Produktivni) + L" : " +
+			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Produktivni)) << std::endl;
+		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
+			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Poproduktivni)) << std::endl;
+
+		if (current->getTyp() != TypUzemnejJednotky::Stat)
+			current = current->getVyssiCelok();
+		else
+			pokracuj = true;
+	}
+	delete select;
+	delete tabulkaNaPracovanie;
+}
 
 
 
@@ -1031,14 +1135,11 @@ void Priklady::FiltrovaniePreTriedenie(structures::UnsortedSequenceTable<std::ws
 		}
 	}
 
-
 	return;
-
 }
 
 
 void Priklady::Filtrovanie(structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, TypVzdelania* vybrany) {
-	spojenieTabuliek(table);
 	bool nepouzityPocet = true;
 	bool nepouzityPodiel = true;
 	int filter = -1;
@@ -1113,7 +1214,7 @@ void Priklady::Filtrovanie(structures::UnsortedSequenceTable<std::wstring, Uzemn
 				std::wcout << std::endl << "Vyberte typ vzdelania ktory chcete filtrovat" << std::endl;
 				for (int i = 0; i < this->typyVzdelania->size(); ++i)
 				{
-					std::wcout << i + 1 + L". " + VypisEnumVzdelanie(this->typyVzdelania->at(i)) << std::endl;
+					std::wcout << std::to_wstring(i + 1) + L". " + VypisEnumVzdelanie(this->typyVzdelania->at(i)) << std::endl;
 				}
 				std::cin >> cisloTypu;
 				if (cisloTypu > 0 && cisloTypu <= 8)
@@ -1174,6 +1275,71 @@ void Priklady::Filtrovanie(structures::UnsortedSequenceTable<std::wstring, Uzemn
 
 	return;
 
+}
+
+void Priklady::FiltrovaniePreVyber(structures::SequenceTable<std::wstring, UzemnaJednotka*>* table)
+{
+	int filter = -1;
+	bool pokracuj = false;
+	bool typ = false;
+	bool prislusnost = false;
+
+
+	while (!pokracuj) {
+		if (!typ)
+			std::wcout << "1 - Filtrovat podla typu" << std::endl;
+		if (!prislusnost)
+			std::wcout << "2 - Filtrovat podla prislusnosti" << std::endl;
+		
+		std::wcout << "0 - Pokracovat" << std::endl;
+
+		std::wcin >> filter;
+
+		if (filter == 1 && !typ) {
+			typ = true;
+			std::wcout << "Vyberte si uzemnu jednotku: " << std::endl;
+			std::wcout << "1. Stat: " << std::endl << "2. Kraj" << std::endl << "3. Okres" << std::endl << "4. Obec" << std::endl;
+			int vyber;
+			TypUzemnejJednotky vybranyTyp;
+			bool vybrane = false;
+			while (!vybrane) {
+				std::wcout << "Zadajte jedno z cisiel: " << std::endl;
+				std::wcin >> vyber;
+				switch (vyber)
+				{
+				case 1:
+					vybranyTyp = TypUzemnejJednotky::Stat;
+					break;
+				case 2:
+					vybranyTyp = TypUzemnejJednotky::Kraj;
+					vybrane = true;
+					break;
+				case 3:
+					vybranyTyp = TypUzemnejJednotky::Okres;
+					vybrane = true;
+					break;
+				case 4:
+					vybranyTyp = TypUzemnejJednotky::Obec;
+					vybrane = true;
+					break;
+				}
+				FilterTyp* fTyp = new FilterTyp(vybranyTyp);
+				fTyp->filterTable(table, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+				vybrane = true;
+			}
+		}
+		else if (filter == 2 && !prislusnost) {
+			prislusnost = true;
+			std::wstring nazov = L"";
+			std::wcout << std::endl << "Zadajte nazov vyssej uzemnej jednotky ku ktorej maju vybrane uzemne jednotky prisluchat" << std::endl;
+			std::wcin >> nazov;
+			FilterPrislusnost* fPrislusnost = new FilterPrislusnost(nazov, true);
+			fPrislusnost->filterTable(table, new structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>);
+			delete fPrislusnost;
+		}
+	}
+
+	return;
 }
 
 std::wstring Priklady::VypisEnumTyp(TypUzemnejJednotky typ)
