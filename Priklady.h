@@ -16,9 +16,9 @@ class Priklady
 {
 private:
 	Stat* stat;
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_kraj;
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_okres;
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_obec;
+	structures::SortedSequenceTable<std::wstring, Kraj*>* table_kraj;
+	structures::SortedSequenceTable<std::wstring, Okres*>* table_okres;
+	structures::SortedSequenceTable<std::wstring, Obec*>* table_obec;
 
 	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* tab_all_sorted;
 

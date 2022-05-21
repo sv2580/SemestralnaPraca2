@@ -4,19 +4,18 @@
 Priklady::Priklady()
 {
 	Input* input = new Input();
-	this->stat = new Stat(TypUzemnejJednotky::Stat, L"Slovensko", nullptr);
-	this->table_kraj = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>(input->InputKraje("csv/kraje.csv", stat));
-	this->table_okres = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>(input->InputOkresy("csv/okresy.csv", table_kraj));
-	this->table_obec = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>(input->InputObce("csv/vzdelanie.csv", table_okres));
+    stat = new Stat(TypUzemnejJednotky::Stat, L"Slovensko", nullptr);
+	table_kraj = new structures::SortedSequenceTable<std::wstring, Kraj*>();
+	table_okres = new structures::SortedSequenceTable<std::wstring, Okres*>();
+	table_obec = new structures::SortedSequenceTable<std::wstring, Obec*>();
+	input->InputKraje(table_kraj, L"csv/kraje.csv", stat);
+	input->InputOkresy(table_okres, L"csv/okresy.csv", table_kraj);
+	input->InputObce(table_obec, L"csv/vzdelanie.csv", table_okres);
 
-	input->InputVek("csv/vek.csv", table_obec);
-
+	input->InputVek(L"csv/vek.csv", table_obec);
 	this->tab_all_sorted = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>();
 
 	this->spojenieTabuliek(this->tab_all_sorted);
-	//this->spojenieTabuliek(this->tab_all_unsorted);
-
-
 
 	typyVzdelania = new structures::Array<TypVzdelania>(8);
 	typyVzdelania->at(0) = TypVzdelania::BezDo15;
@@ -32,29 +31,27 @@ Priklady::Priklady()
 
 Priklady::~Priklady()
 {
+	delete stat;
 
-
-	for (structures::TableItem<std::wstring, UzemnaJednotka*>* item : *table_kraj)
+	for (structures::TableItem<std::wstring, Kraj*>* item : *table_kraj)
 	{
-		if (item->accessData()->getVyssiCelok()) {
-			delete item->accessData()->getVyssiCelok();
-		}
+		delete item->accessData();
 
 	}
 
 	delete table_kraj;
 
-	for (structures::TableItem<std::wstring, UzemnaJednotka*>* item : *table_okres)
+	for (structures::TableItem<std::wstring, Okres*>* item : *table_okres)
 	{
 		delete item->accessData();
 	}
 	delete table_okres;
 
 
-	for (structures::TableItem<std::wstring, UzemnaJednotka*>* item : *table_obec)
+	for (structures::TableItem<std::wstring, Obec*>* item : *table_obec)
 	{
 		delete item->accessData();
-	}
+	}    Priklady* input = new Priklady();
 	delete table_obec;
 
 
@@ -985,13 +982,13 @@ void Priklady::Vypis(structures::SequenceTable<std::wstring, UzemnaJednotka*>& t
 void Priklady::spojenieTabuliek(structures::SequenceTable<std::wstring, UzemnaJednotka*>* table)
 {
 	table->insert(stat->getNazov(), stat);
-	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *table_kraj) {
+	for (structures::TableItem<std::wstring, Kraj*>* uzemnaJednotka : *table_kraj) {
 		table->insert(uzemnaJednotka->accessData()->getNazov(), uzemnaJednotka->accessData());
 	}
-	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *table_okres) {
+	for (structures::TableItem<std::wstring, Okres*>* uzemnaJednotka : *table_okres) {
 		table->insert(uzemnaJednotka->accessData()->getNazov(), uzemnaJednotka->accessData());
 	}
-	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *table_obec) {
+	for (structures::TableItem<std::wstring, Obec*>* uzemnaJednotka : *table_obec) {
 		table->insert(uzemnaJednotka->accessData()->getNazov(), uzemnaJednotka->accessData());
 	}
 }

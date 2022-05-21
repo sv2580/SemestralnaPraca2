@@ -13,6 +13,7 @@ public:
 		_vyssiCelok = vyssiCelok;
 	}
 	~VyssiCelok() {
+
 		delete _nizsieCelky;
 		_nizsieCelky = nullptr;
 

@@ -62,16 +62,10 @@
     <ClInclude Include="VyssiCelok.h">
       <Filter>Header Files\UzemneJednotky</Filter>
     </ClInclude>
-    <ClInclude Include="Okres.h">
-      <Filter>Header Files\UzemneJednotky</Filter>
-    </ClInclude>
     <ClInclude Include="Kraj.h">
       <Filter>Header Files\UzemneJednotky</Filter>
     </ClInclude>
     <ClInclude Include="Stat.h">
-      <Filter>Header Files\UzemneJednotky</Filter>
-    </ClInclude>
-    <ClInclude Include="Obec.h">
       <Filter>Header Files\UzemneJednotky</Filter>
     </ClInclude>
     <ClInclude Include="Vzdelanie.h">
@@ -133,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="SelectionCriterion.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Obec.h">
+      <Filter>Header Files\UzemneJednotky</Filter>
+    </ClInclude>
+    <ClInclude Include="Okres.h">
+      <Filter>Header Files\UzemneJednotky</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

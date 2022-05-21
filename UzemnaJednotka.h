@@ -59,3 +59,5 @@ inline const std::wstring& UzemnaJednotka::getNazov() const
 inline const TypUzemnejJednotky& UzemnaJednotka::getTyp() const {
 	return this->_typ;
 }
+
+

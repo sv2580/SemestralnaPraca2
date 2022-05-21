@@ -1,20 +1,11 @@
 #include "Input.h"
 
-#include "structures/array.h"
-#include <sstream>
-#include <fstream>
-#include <codecvt>
-#include <locale>
-#include <codecvt>
-#include <iostream>
 
-#include <cstdio>
-#include <io.h>
-#include <fcntl.h>
 
-structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputKraje(std::string filename, VyssiCelok* stat)
+
+void Input::InputKraje(structures::SortedSequenceTable<std::wstring, Kraj*>* table, std::wstring filename, VyssiCelok* stat)
 {
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>();
+
 
 	/*http://www.cplusplus.com/forum/beginner/107125/*/
 	std::wifstream file(filename);
@@ -47,14 +38,9 @@ structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputKraj
 		}
 	}
 	file.close();
-	return *table;
-
 }
-
-structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputOkresy(std::string filename,
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_kraje)
+void Input::InputOkresy(structures::SortedSequenceTable<std::wstring, Okres*>* table, std::wstring filename, structures::SortedSequenceTable<std::wstring, Kraj*>* table_kraje)
 {
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>();
 
 	std::wifstream file(filename);
 
@@ -81,7 +67,7 @@ structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputOkre
 		std::getline(file, line, L'\n');
 
 		if (key != L"SKZZZ" && key != L"SKZZZZ") {
-			UzemnaJednotka* data = nullptr;
+			Kraj* data = nullptr;
 			table_kraje->tryFind(key.substr(0, 5), data);
 			VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(data);
 
@@ -92,15 +78,10 @@ structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputOkre
 		}
 	}
 	file.close();
-	return *table;
-
 
 }
-
-structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputObce(std::string filename,
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_okresy)
+void Input::InputObce(structures::SortedSequenceTable<std::wstring, Obec*>* table, std::wstring filename, structures::SortedSequenceTable<std::wstring, Okres*>* table_okresy)
 {
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table = new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>();
 	std::wifstream file(filename);
 
 	std::locale utf8_locale(std::locale(), new std::codecvt_utf8<wchar_t>);
@@ -124,8 +105,8 @@ structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputObce
 			std::getline(file, line, L';');
 			std::wstring nazov = line;
 			for (size_t i = 0; i < 8; i++) {
-				
-				if(i == 7)
+
+				if (i == 7)
 					std::getline(file, line, L'\n');
 				else if (i < 7) {
 					std::getline(file, line, L';');
@@ -163,7 +144,7 @@ structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputObce
 				num++;
 
 			}
-			UzemnaJednotka* data = nullptr;
+			Okres* data = nullptr;
 			table_okresy->tryFind(key.substr(0, 6), data);
 			VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(data);
 
@@ -172,14 +153,13 @@ structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputObce
 
 			obec->setVzdelanie(pole);
 			table->insert(key, obec);
-
 		}
 
 	}
+
 	file.close();
-	return *table;
 }
-void Input::InputVek(std::string filename, structures::SequenceTable<std::wstring, UzemnaJednotka*>* table_obce)
+void Input::InputVek(std::wstring filename, structures::SequenceTable<std::wstring, Obec*>* table_obce)
 {
 	std::wifstream file(filename);
 
@@ -220,11 +200,10 @@ void Input::InputVek(std::string filename, structures::SequenceTable<std::wstrin
 		}
 
 
-		UzemnaJednotka* data = nullptr;
+		Obec* data = nullptr;
 		table_obce->tryFind(key, data);
-		Obec* obec = dynamic_cast<Obec*>(data);
 
-		obec->setVek(pole);
+		data->setVek(pole);
 	}
 	file.close();
 

@@ -4,19 +4,20 @@
 #include "Kraj.h"
 #include "Okres.h"
 #include "Obec.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
+#include <iostream> //
 #include "structures/sorted_sequence_table.h"
-#include <iostream>
+#include "structures/array.h"
+#include <fstream> //
+#include <codecvt> //
+
 
 class Input
 {
 	public:
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& InputKraje(std::string filename, VyssiCelok* stat);
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& InputOkresy(std::string filename, structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_kraje);
-	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& InputObce(std::string filename,  structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_okresy);
-	void InputVek(std::string filename, structures::SequenceTable<std::wstring, UzemnaJednotka*>* table_obce);
+	void InputKraje(structures::SortedSequenceTable<std::wstring, Kraj*>* table, std::wstring filename, VyssiCelok* stat);
+	void InputOkresy(structures::SortedSequenceTable<std::wstring, Okres*>* table, std::wstring filename, structures::SortedSequenceTable<std::wstring, Kraj*>* table_kraje);
+	void InputObce(structures::SortedSequenceTable<std::wstring, Obec*>* table, std::wstring filename,  structures::SortedSequenceTable<std::wstring, Okres*>* table_okresy);
+	void InputVek(std::wstring filename, structures::SequenceTable<std::wstring, Obec*>* table_obce);
 
 
 };
