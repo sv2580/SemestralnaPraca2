@@ -7,7 +7,9 @@ protected:
 	std::wstring _nazov;
 	TypUzemnejJednotky _typ;
 	UzemnaJednotka* _vyssiCelok;
-
+	//int _produktivni = 0;
+	//int _poproduktivni = 0;
+	//int _predproduktivni = 0;
 
 public:
 
@@ -17,9 +19,13 @@ public:
 		_vyssiCelok(vyssiCelok)
 	{
 	}
-	~UzemnaJednotka() {
 
+
+	~UzemnaJednotka() {
+		_nazov = L"";
+		_vyssiCelok = nullptr;
 	};
+
 	const std::wstring& getNazov() const;
 	const TypUzemnejJednotky& getTyp() const;
 

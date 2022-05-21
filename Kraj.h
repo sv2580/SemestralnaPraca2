@@ -8,5 +8,8 @@ public:
 	{
 	}
 
-	~Kraj() {}
+	~Kraj() {
+		_vyssiCelok = nullptr;
+
+	}
 };

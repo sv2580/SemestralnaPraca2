@@ -15,6 +15,7 @@ public:
 	const int& const getPocet();
 	const int& const getVek();
 	const Pohlavie& const getPohlavie();
+	~Vek() {};
 };
 
 inline Vek::Vek(Pohlavie pohlavie, int pocet, int vek) :

@@ -14,6 +14,7 @@ int main()
 {
     initHeapMonitor();
     _setmode(_fileno(stdout), _O_U16TEXT);
+    _setmode(_fileno(stdin), _O_U16TEXT);
 
     bool pokracuj = false;
     Priklady* input = new Priklady();

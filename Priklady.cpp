@@ -32,35 +32,30 @@ Priklady::Priklady()
 Priklady::~Priklady()
 {
 	delete stat;
-
-	for (structures::TableItem<std::wstring, Kraj*>* item : *table_kraj)
-	{
+	for (auto item : *table_kraj) {
 		delete item->accessData();
-
 	}
-
 	delete table_kraj;
-
-	for (structures::TableItem<std::wstring, Okres*>* item : *table_okres)
-	{
+	table_kraj = nullptr;
+	for (auto item : *table_okres) {
 		delete item->accessData();
 	}
-	delete table_okres;
 
-
-	for (structures::TableItem<std::wstring, Obec*>* item : *table_obec)
-	{
+	for (auto item : *table_obec) {
 		delete item->accessData();
-	}    Priklady* input = new Priklady();
+	}
 	delete table_obec;
-
-
+	delete table_okres;
+	table_obec = nullptr;
+	table_okres = nullptr;
 
 	delete typyVzdelania;
 
+	typyVzdelania = nullptr;
 
 	delete tab_all_sorted;
 
+	tab_all_sorted = nullptr;
 
 }
 
@@ -114,13 +109,14 @@ void Priklady::Priklad1Vypis()
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
 			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Poproduktivni)) << std::endl;
 
-		std::wcout << L"*****" << std::endl;
 
 		if (current->getTyp() != TypUzemnejJednotky::Stat)
 			current = current->getVyssiCelok();
 		else
 			pokracuj = true;
 	}
+
+	std::wcout << std::endl;
 
 
 	return;

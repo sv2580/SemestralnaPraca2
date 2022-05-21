@@ -1,22 +1,30 @@
 #pragma once
 #include "UzemnaJednotka.h"
 #include "structures/array_list.h"
+#include <iostream>
 #include "Vzdelanie.h"
 
 class VyssiCelok : public UzemnaJednotka {
 protected:
 	structures::ArrayList<UzemnaJednotka*>* _nizsieCelky = new structures::ArrayList<UzemnaJednotka*>();
-	//structures::Array<Vzdelanie*>* _vzdelania = new structures::Array<Vzdelanie*>(8);
+	structures::Array<int>* _vzdelanie = new structures::Array<int>(8);
 
 public:
 	VyssiCelok(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* vyssiCelok) : UzemnaJednotka(typ, nazov, vyssiCelok) {
 		_vyssiCelok = vyssiCelok;
+
+		for (int i = 0; i < 8; i++)
+		{
+			_vzdelanie->at(i) = -1;
+		}
 	}
 	~VyssiCelok() {
 
 		delete _nizsieCelky;
 		_nizsieCelky = nullptr;
 
+		delete _vzdelanie;
+		_vzdelanie = nullptr;
 	}
 	
 	void VypocitajVzdelania();
@@ -42,7 +50,6 @@ public:
 	virtual const int getPocetSpolu() const override;
 
 	
-
 
 	// Inherited via UzemnaJednotka
 	virtual const int getVekPocet(Pohlavie pohlavie, int vek) const override;
@@ -72,11 +79,24 @@ inline const bool VyssiCelok::patriDoCelku(UzemnaJednotka* celok) const
 
 inline const int VyssiCelok::getVzdelaniePocet(TypVzdelania typ) const
 {
-	int result = 0;
+	int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(TypVzdelania::BezNad15);
+	int result = -1;
 
-	for (auto item : *this->_nizsieCelky) {
-		result += item->getVzdelaniePocet(typ);
+	/*if (_vzdelanie->at(index) == nullptr)
+	{
+		result = 0;
+		for (UzemnaJednotka* item : *this->_nizsieCelky) {
+			result += item->getVzdelaniePocet(typ);
+		}
+
+		_vzdelanie->at(index) = new Vzdelanie(typ,result);
 	}
+	else {
+		
+	}*/
+
+
+	
 
 	return result;
 }

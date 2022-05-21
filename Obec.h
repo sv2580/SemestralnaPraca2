@@ -186,9 +186,19 @@ inline const double Obec::getIntervalVekPodiel(Pohlavie pohlavie, int min, int m
 
 inline Obec::~Obec()
 {
+	for (int i = 0; i < 200; i++)
+	{
+
+		delete _vek->at(i);
+	}
 	delete _vek;
-	delete _vzdelanie;
 	_vek = nullptr;
+	for (int i = 0; i < 8; i++)
+	{
+
+		delete _vzdelanie->at(i);
+	}
+	delete _vzdelanie;
 	_vzdelanie = nullptr;
 }
 

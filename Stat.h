@@ -10,4 +10,7 @@ public:
 };
 
 inline Stat::Stat(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* celok) : VyssiCelok(typ, nazov, celok) {
+
+	_vyssiCelok = nullptr;
+
 }

@@ -6,7 +6,9 @@ class Okres : public VyssiCelok {
 public:
 	Okres(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* celok);
 
-	~Okres() {}
+	~Okres() {
+		_vyssiCelok = nullptr;
+	}
 
 };
 

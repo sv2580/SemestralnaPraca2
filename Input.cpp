@@ -96,10 +96,11 @@ void Input::InputObce(structures::SortedSequenceTable<std::wstring, Obec*>* tabl
 
 	while (!file.eof()) {
 
-		structures::Array<Vzdelanie*>* pole = new structures::Array<Vzdelanie*>(8);
 		std::getline(file, line, L';');
 		std::wstring key = line;
 		if (key != L"SKZZZZ" && key != L"SKZZZZZZZZZZ") {
+			structures::Array<Vzdelanie*>* pole = new structures::Array<Vzdelanie*>(8);
+
 			int num = 0;
 			TypVzdelania typ;
 			std::getline(file, line, L';');
@@ -153,6 +154,10 @@ void Input::InputObce(structures::SortedSequenceTable<std::wstring, Obec*>* tabl
 
 			obec->setVzdelanie(pole);
 			table->insert(key, obec);
+
+
+			delete pole;
+			pole = nullptr;
 		}
 
 	}
@@ -204,6 +209,10 @@ void Input::InputVek(std::wstring filename, structures::SequenceTable<std::wstri
 		table_obce->tryFind(key, data);
 
 		data->setVek(pole);
+
+
+		delete pole;
+		pole = nullptr;
 	}
 	file.close();
 

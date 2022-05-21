@@ -9,6 +9,8 @@ private:
 
 public:
 	Vzdelanie(TypVzdelania typ, int pocet);
+	~Vzdelanie() {}
+
 	const int& const getPocet();
 	const TypVzdelania& const getTyp();
 };
