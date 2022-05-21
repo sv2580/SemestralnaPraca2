@@ -5,6 +5,9 @@
 class Okres : public VyssiCelok {
 public:
 	Okres(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* celok);
+
+	~Okres() {}
+
 };
 
 inline Okres::Okres(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* celok) : VyssiCelok(typ, nazov, celok)

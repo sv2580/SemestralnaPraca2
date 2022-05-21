@@ -18,9 +18,7 @@ public:
 	{
 	}
 	~UzemnaJednotka() {
-		if (_vyssiCelok) {
-			delete _vyssiCelok;
-		}
+
 	};
 	const std::wstring& getNazov() const;
 	const TypUzemnejJednotky& getTyp() const;

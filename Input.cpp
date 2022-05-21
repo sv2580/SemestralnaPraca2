@@ -40,9 +40,8 @@ structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>& Input::InputKraj
 		std::getline(file, line, L';');
 		std::getline(file, line, L'\n');
 		std::wstring key = line.substr(5, 5);
-		Kraj* kraj = new Kraj(TypUzemnejJednotky::Kraj, nazov, stat);
-
 		if (key != L"*****") {
+			Kraj* kraj = new Kraj(TypUzemnejJednotky::Kraj, nazov, stat);
 			table->insert(key, kraj);
 			stat->addNizsiCelok(kraj);
 		}

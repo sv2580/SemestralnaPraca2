@@ -16,19 +16,19 @@ public:
 		delete _criterion;
 	}
 
-	O* selectBest(structures::SequenceTable<K,O*>* table);
+	O* selectBest(structures::SequenceTable<K,O*>* table, V worst);
 };
 
 
 template<typename K, typename O, typename V>
-inline O* SelectionCriterion<K, O, V>::selectBest(structures::SequenceTable<K,O*>* table)
+inline O* SelectionCriterion<K, O, V>::selectBest(structures::SequenceTable<K,O*>* table, V worst)
 {
-	V bestValue = NULL;
+	V bestValue = worst;
 	O* bestObject = nullptr;
-	for (structures::TableItem<K, O>* tableItem : *table)
+	for (structures::TableItem<K, O*>* tableItem : *table)
 	{
-		O* testedObject = *tableItem->accessData(); // pozor na *!!!
-		V testedValue = _criterion->evaluate(testedObject);
+		O* testedObject = tableItem->accessData(); // pozor na *!!!
+		V testedValue = _criterion->evaluate(*testedObject);
 		if (isTestedValueBetter(bestValue, testedValue)) {
 			bestValue = testedValue;
 			bestObject = testedObject;

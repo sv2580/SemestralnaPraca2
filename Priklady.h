@@ -21,7 +21,6 @@ private:
 	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table_obec;
 
 	structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* tab_all_sorted;
-	structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* tab_all_unsorted;
 
 	structures::Array<TypVzdelania>* typyVzdelania; // pre jednoduchsie vypisovanie typov
 
@@ -47,10 +46,10 @@ public:
 
 private:
 
-	void FiltrovaniePreTriedenie(structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, 
+	void FiltrovaniePreTriedenie4(structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, 
 		Pohlavie* vybranePohl, int* min, int* max, VekovaSkupina* vybranaVekovaSkupina);
 
-	void Filtrovanie(structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, TypVzdelania* vybrany);
+	void FiltrovaniePreTriedenie3(structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table, char uloha, TypVzdelania* vybrany);
 
 	void FiltrovaniePreVyber(structures::SequenceTable<std::wstring, UzemnaJednotka*>* table);
 

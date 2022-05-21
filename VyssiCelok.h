@@ -6,7 +6,7 @@
 class VyssiCelok : public UzemnaJednotka {
 protected:
 	structures::ArrayList<UzemnaJednotka*>* _nizsieCelky = new structures::ArrayList<UzemnaJednotka*>();
-	structures::Array<Vzdelanie*>* _vzdelania = new structures::Array<Vzdelanie*>(8);
+	//structures::Array<Vzdelanie*>* _vzdelania = new structures::Array<Vzdelanie*>(8);
 
 public:
 	VyssiCelok(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* vyssiCelok) : UzemnaJednotka(typ, nazov, vyssiCelok) {
@@ -15,8 +15,7 @@ public:
 	~VyssiCelok() {
 		delete _nizsieCelky;
 		_nizsieCelky = nullptr;
-		delete _vzdelania;
-		_vzdelania = nullptr;
+
 	}
 	
 	void VypocitajVzdelania();

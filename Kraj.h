@@ -7,4 +7,6 @@ public:
 		VyssiCelok(typ, nazov, celok)
 	{
 	}
+
+	~Kraj() {}
 };

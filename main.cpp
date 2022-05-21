@@ -19,18 +19,18 @@ int main()
     Priklady* input = new Priklady();
     int priklad;
     while (!pokracuj) {
-        std::wcout << "0. Koniec " << std::endl;
-        std::wcout << "1. Príklad - vypis poctu vzdelania, typu, vekovych skupin podla nazvu" << std::endl;
-        std::wcout << "2. Priklad - filtrovanie podla poctu/podielu vzdelania, typu, prislusnosti" << std::endl;
-        std::wcout << "3. Priklad 3A - Triedenie podla nazvu" << std::endl;
-        std::wcout << "4. Priklad 3B - Triedenie podla poctu" << std::endl;
-        std::wcout << "5. Priklad 3C - Triedenie podla podielu" << std::endl;
-        std::wcout << "6. Priklad 3A - Triedenie podla podielu veku" << std::endl;
-        std::wcout << "7. Priklad 3B - Triedenie podla poctu vekovej skupiny" << std::endl << std::endl;
-        std::wcout << "8. Priklad 4A - Najdenie najlepsieho s najmensim poctom vekovej skupiny" << std::endl;
-        std::wcout << "9. Priklad 4B - Najdenie najlepsieho s najvacsim poctom vekovej skupiny" << std::endl;
+        std::wcout << L"0. Koniec " << std::endl;
+        std::wcout << L"1. Príklad - vypis poctu vzdelania, typu, vekovych skupin podla nazvu" << std::endl;
+        std::wcout << L"2. Priklad - filtrovanie podla poctu/podielu vzdelania, typu, prislusnosti" << std::endl;
+        std::wcout << L"3. Priklad 3A - Triedenie podla nazvu" << std::endl;
+        std::wcout << L"4. Priklad 3B - Triedenie podla poctu" << std::endl;
+        std::wcout << L"5. Priklad 3C - Triedenie podla podielu" << std::endl;
+        std::wcout << L"6. Priklad 3A - Triedenie podla podielu veku" << std::endl;
+        std::wcout << L"7. Priklad 3B - Triedenie podla poctu vekovej skupiny" << std::endl << std::endl;
+        std::wcout << L"8. Priklad 4A - Najdenie najlepsieho s najmensim poctom vekovej skupiny" << std::endl;
+        std::wcout << L"9. Priklad 4B - Najdenie najlepsieho s najvacsim poctom vekovej skupiny" << std::endl;
 
-        std::cin >> priklad;
+        std::wcin >> priklad;
         if (priklad == 0) {
             pokracuj = true;
         }
@@ -64,6 +64,5 @@ int main()
 
     }
     delete input;
-    return 0;
 }
 
