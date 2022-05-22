@@ -97,25 +97,7 @@ inline const bool VyssiCelok::patriDoCelku(UzemnaJednotka* celok) const
 
 inline const int VyssiCelok::getVzdelaniePocet(TypVzdelania typ) const
 {
-	int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(typ);
-	/*int result = -1;
-
-	if (_vzdelanie->at(index) == -1)
-	{
-		result = 0;
-		for (UzemnaJednotka* item : *this->_nizsieCelky) {
-			result += item->getVzdelaniePocet(typ);
-		}
-
-		_vzdelanie->at(index) = result;
-	}
-	else {
-		result = _vzdelanie->at(index);
-	}
-
-	return result;*/
-
-	return _vzdelanie->at(index);
+	return _vzdelanie->at(static_cast<typename std::underlying_type<TypVzdelania>::type>(typ));
 }
 
 

@@ -565,6 +565,7 @@ void Priklady::Priklad3aTriedenieVekPodiel()
 	{
 		tabulkaNaPracovanie->insert(tableItem->getKey(), tableItem->accessData());
 	}
+	delete table;
 
 	bool pokracovat = false;
 	std::wcout << L"1. Vzostupne " << std::endl << L"2. Zostupne" << std::endl;
@@ -616,6 +617,7 @@ void Priklady::Priklad3bTriedenieVekovaSkupinaPocet()
 	{
 		tabulkaNaPracovanie->insert(tableItem->getKey(), tableItem->accessData());
 	}
+	delete table;
 
 	bool pokracovat = false;
 	std::wcout << L"1. Vzostupne " << std::endl << L"2. Zostupne" << std::endl;
@@ -660,6 +662,7 @@ void Priklady::Priklad3aTriedenieNazvu() {
 	{
 		tabulkaNaPracovanie->insert(tableItem->getKey(), tableItem->accessData());
 	}
+	delete table;
 
 
 	std::wcout << L"1. Vzostupne " << std::endl << L"2. Zostupne" << std::endl;
@@ -702,7 +705,7 @@ void Priklady::Priklad3bTriedeniePoctu()
 		tabulkaNaPracovanie->insert(tableItem->getKey(), tableItem->accessData());
 	}
 
-
+	delete table;
 
 	std::wcout << L"1. Vzostupne " << std::endl << L"2. Zostupne" << std::endl;
 

@@ -67,13 +67,14 @@ inline const bool Obec::patriDoCelku(UzemnaJednotka* celok) const
 
 inline const int Obec::getVzdelaniePocet(TypVzdelania typ) const
 {
-	int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(typ);
-			return _vzdelanie->at(index)->getPocet();
-	
+	return _vzdelanie->at(static_cast<typename std::underlying_type<TypVzdelania>::type>(typ))->getPocet();
 }
 
 inline const double Obec::getVzdelaniePodiel(TypVzdelania typ) const
 {
+	if (pocetObyvatelov == 0)
+		return 0;
+
 	return ((double)getVzdelaniePocet(typ) / getPocetSpolu()) * 100;
 }
 

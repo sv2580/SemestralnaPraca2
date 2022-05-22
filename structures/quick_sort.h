@@ -90,24 +90,18 @@ class SortCriterion {
 public:
 	void SortVzostupne(int min, int max, structures::UnsortedSequenceTable<std::wstring, UzemnaJednotka*>& table, CriterionUzemnaJednotka<R>* criterion) {
 		int index = (min + max) / 2;
-		UzemnaJednotka* data = table.getItemAtIndex((min + max) / 2).accessData();
-		R pivot = criterion->evaluate(*data);
+		UzemnaJednotka* data;
+		R pivot = criterion->evaluate(*table.getItemAtIndex((min + max) / 2).accessData());
 		int left = min;
 		int right = max;
-		UzemnaJednotka* leftData = table.getItemAtIndex(left).accessData();
-		UzemnaJednotka* rightData = table.getItemAtIndex(right).accessData();
 
 		while (left <= right) {
-			leftData = table.getItemAtIndex(left).accessData();
-			rightData = table.getItemAtIndex(right).accessData();
 
-			while (criterion->evaluate(*leftData) < pivot) {
+			while (criterion->evaluate(*table.getItemAtIndex(left).accessData()) < pivot) {
 				left++;
-				leftData = table.getItemAtIndex(left).accessData();
 			}
-			while (criterion->evaluate(*rightData) > pivot) {
+			while (criterion->evaluate(*table.getItemAtIndex(right).accessData()) > pivot) {
 				right--;
-				rightData = table.getItemAtIndex(right).accessData();
 			}
 
 			if (left <= right)
@@ -119,7 +113,7 @@ public:
 		}
 
 		if (min < right) {
-			SortVzostupne(min, left, table, criterion);
+			SortVzostupne(min, right, table, criterion);
 		}
 
 		if (left < max) {
@@ -159,7 +153,7 @@ public:
 		}
 
 		if (min < right) {
-			SortZostupne(min, left, table, criterion);
+			SortZostupne(min, right, table, criterion);
 		}
 
 		if (left < max) {
