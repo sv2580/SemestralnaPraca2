@@ -34,7 +34,20 @@ public:
 	}
 
 
-	virtual const bool patriDoCelku(UzemnaJednotka* celok) const = 0;
+	virtual const bool patriDoCelku(UzemnaJednotka* celok) const {
+		bool result = false;
+		const UzemnaJednotka* current = getVyssiCelok();
+		while (current != NULL) {
+			result = current == celok;
+			if (result) {
+				return result;
+			}
+			current = current->getVyssiCelok();
+		}
+		return result; 
+	}
+
+
 	virtual const UzemnaJednotka* getVyssiCelok() const {
 		return this->_vyssiCelok;
 	};	

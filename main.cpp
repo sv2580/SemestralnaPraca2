@@ -16,22 +16,26 @@ int main()
     _setmode(_fileno(stdout), _O_U16TEXT);
     _setmode(_fileno(stdin), _O_U16TEXT);
 
+
     bool pokracuj = false;
+    
     Priklady* input = new Priklady();
     int priklad;
     while (!pokracuj) {
-        std::wcout << L"0. Koniec " << std::endl;
-        std::wcout << L"1. Príklad - vypis poctu vzdelania, typu, vekovych skupin podla nazvu" << std::endl;
-        std::wcout << L"2. Priklad - filtrovanie podla poctu/podielu vzdelania, typu, prislusnosti" << std::endl;
-        std::wcout << L"3. Priklad 3A - Triedenie podla nazvu" << std::endl;
-        std::wcout << L"4. Priklad 3B - Triedenie podla poctu" << std::endl;
-        std::wcout << L"5. Priklad 3C - Triedenie podla podielu" << std::endl;
-        std::wcout << L"6. Priklad 3A - Triedenie podla podielu veku" << std::endl;
-        std::wcout << L"7. Priklad 3B - Triedenie podla poctu vekovej skupiny" << std::endl;
-        std::wcout << L"8. Priklad 4A - Najdenie najlepsieho s najmensim poctom vekovej skupiny" << std::endl;
-        std::wcout << L"9. Priklad 4B - Najdenie najlepsieho s najvacsim poctom vekovej skupiny" << std::endl;
+        std::wcout << std::endl << L"Stlacte klavesu: " << std::endl;
+        std::wcout << L"[0] Koniec " << std::endl;
+        std::wcout << L"[1] Príklad - informacie o uzemnej jednotky vyhladanej podla nazvu" << std::endl;
+        std::wcout << L"[2] Priklad - filtrovanie podla poctu/podielu vzdelania, typu, prislusnosti" << std::endl;
+        std::wcout << L"[3] Priklad 3A - Triedenie podla nazvu" << std::endl;
+        std::wcout << L"[4] Priklad 3B - Triedenie podla poctu zvoleneho typu vzdelania" << std::endl;
+        std::wcout << L"[5] Priklad 3C - Triedenie podla podielu zvoleneho typu vzdelania" << std::endl;
+        std::wcout << L"[6] Priklad 3A - Triedenie podla podielu zvoleneho veku" << std::endl;
+        std::wcout << L"[7] Priklad 3B - Triedenie podla poctu vekovej skupiny" << std::endl;
+        std::wcout << L"[8] Priklad 4A - Najdenie najlepsieho s najmensim poctom vekovej skupiny" << std::endl;
+        std::wcout << L"[9]. Priklad 4B - Najdenie najlepsieho s najvacsim poctom vekovej skupiny" << std::endl;
 
         std::wcin >> priklad;
+
         if (priklad == 0) {
             pokracuj = true;
         }

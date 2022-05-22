@@ -1,4 +1,5 @@
 #include "Priklady.h"
+#include <io.h>
 
 
 Priklady::Priklady()
@@ -66,8 +67,11 @@ void Priklady::Priklad1Vypis()
 	UzemnaJednotka* data = nullptr;
 	std::wstring nazov;
 	while (!pokracuj) {
+		wchar_t input[100];
 		std::wcout << std::endl << L"Zadajte nazov uzemnej jednotky" << std::endl;
-		std::wcin >> nazov;
+		std::wcin.ignore();
+		std::wcin.getline(input, 100);
+		std::wstring nazov = std::wstring(input);
 
 		bool najdene = tab_all_sorted->tryFind(nazov, data);
 		if (najdene)
@@ -78,7 +82,7 @@ void Priklady::Priklad1Vypis()
 			int filter;
 			std::wcin >> filter;
 			if (filter == 0)
-				pokracuj = true;
+				return;
 		}
 	}
 
@@ -147,8 +151,7 @@ void Priklady::Priklad2Filtrovanie()
 	Pohlavie vybranePodiel = Pohlavie::Obe;
 
 	while (!pokracuj) {
-		std::wcout << L"0 - Pokracovat" << std::endl;
-
+		std::wcout << std::endl << L"0 - Pokracovat" << std::endl;
 		if (!typ)
 			std::wcout << L"1  - Filtrovat podla typu" << std::endl;
 		if (!prislusnost)
@@ -172,47 +175,11 @@ void Priklady::Priklad2Filtrovanie()
 		}
 		else if (filter == 1 && !typ) {
 			typ = true;
-			std::wcout << L"Vyberte si uzemnu jednotku: " << std::endl;
-			std::wcout << L"1. Stat" << std::endl << L"2. Kraj" << std::endl << L"3. Okres" << std::endl << L"4. Obec" << std::endl;
-			int vyber;
-			TypUzemnejJednotky vybranyTyp;
-			bool vybrane = false;
-			while (!vybrane) {
-				std::wcout << L"Zadajte jedno z cisiel: " << std::endl;
-				std::wcin >> vyber;
-				switch (vyber)
-				{
-				case 1:
-					vybranyTyp = TypUzemnejJednotky::Stat;
-					break;
-				case 2:
-					vybranyTyp = TypUzemnejJednotky::Kraj;
-					vybrane = true;
-					break;
-				case 3:
-					vybranyTyp = TypUzemnejJednotky::Okres;
-					vybrane = true;
-					break;
-				case 4:
-					vybranyTyp = TypUzemnejJednotky::Obec;
-					vybrane = true;
-					break;
-				}
-				FilterTyp* fTyp = new FilterTyp(vybranyTyp);
-				fTyp->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-				delete fTyp;
-				vybrane = true;
-			}
+			TypFiltrovanie(tabulkaNaPracovanie);
 		}
 		else if (filter == 2 && !prislusnost) {
 			prislusnost = true;
-			std::wstring nazov = L"";
-			std::wcout << std::endl <<L"Zadajte nazov vyssej uzemnej jednotky ku ktorej maju vybrane uzemne jednotky prisluchat" << std::endl;
-			std::wcin >> nazov;
-			FilterPrislusnost* fPrislusnost = new FilterPrislusnost(nazov, true);
-			fPrislusnost->filterTable(tabulkaNaPracovanie, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-			delete fPrislusnost;
-
+			PrislusnostFiltrovanie(tabulkaNaPracovanie);
 		}
 		else if (filter == 3 && !vzdelaniePocet) {
 			vzdelaniePocet = true;
@@ -302,7 +269,7 @@ void Priklady::Priklad2Filtrovanie()
 			while (!vybrane) {
 				std::wcout << L"Zadajte dolnu vekovu hranicu [0 - 100]" << std::endl;
 				std::wcin >> minVekPocet;
-				std::wcout << L"Zadajte hornu vekovu hranicu [0 - 100]";
+				std::wcout << L"Zadajte hornu vekovu hranicu [0 - 100]" << std::endl;
 				std::wcin >> maxVekPocet;
 				if (minVekPocet <= maxVekPocet && minVekPocet >= 0 && 
 					minVekPocet <= 100 && maxVekPocet >= 0 && maxVekPocet <= 100)
@@ -312,7 +279,7 @@ void Priklady::Priklad2Filtrovanie()
 			while (!vybrane) {
 				std::wcout << L"Zadajte dolnu hranicu poctu" << std::endl;
 				std::wcin >> minPocet;
-				std::wcout << L"Zadajte hornu hranicu poctu";
+				std::wcout << L"Zadajte hornu hranicu poctu" << std::endl;
 				std::wcin >> maxPocet;
 				if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0)
 					vybrane = true;
@@ -351,7 +318,7 @@ void Priklady::Priklad2Filtrovanie()
 			while (!vybrane) {
 				std::wcout << L"Zadajte dolnu vekovu hranicu [0 - 100]" << std::endl;
 				std::wcin >> minVekPodiel;
-				std::wcout << L"Zadajte hornu vekovu hranicu [0 - 100]";
+				std::wcout << L"Zadajte hornu vekovu hranicu [0 - 100]" << std::endl;
 				std::wcin >> maxVekPodiel;
 				if (minVekPodiel < maxVekPodiel && minVekPodiel >= 0 && minVekPodiel <= 100 && maxVekPodiel >= 0 && maxVekPodiel <= 100)
 					vybrane = true;
@@ -361,7 +328,7 @@ void Priklady::Priklad2Filtrovanie()
 			while (!vybrane) {
 				std::wcout << L"Zadajte dolnu hranicu podielu" << std::endl;
 				std::wcin >> minPocet;
-				std::wcout << L"Zadajte hornu hranicu podielu";
+				std::wcout << L"Zadajte hornu hranicu podielu" << std::endl;
 				std::wcin >> maxPocet;
 				if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0 && minPocet <= 100 && maxPocet <= 100)
 					vybrane = true;
@@ -399,7 +366,7 @@ void Priklady::Priklad2Filtrovanie()
 			while (!vybrane) {
 				std::wcout << L"Zadajte dolnu hranicu poctu" << std::endl;
 				std::wcin >> minPocet;
-				std::wcout << L"Zadajte hornu hranicu poctu";
+				std::wcout << L"Zadajte hornu hranicu poctu" << std::endl;
 				std::wcin >> maxPocet;
 				if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0 )
 					vybrane = true;
@@ -446,7 +413,7 @@ void Priklady::Priklad2Filtrovanie()
 			while (!vybrane) {
 				std::wcout << L"Zadajte dolnu hranicu podielu" << std::endl;
 				std::wcin >> minPocet;
-				std::wcout << L"Zadajte hornu hranicu podielu";
+				std::wcout << L"Zadajte hornu hranicu podielu" << std::endl;
 				std::wcin >> maxPocet;
 				if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0 && minPocet <= 1000 && maxPocet <= 100)
 					vybrane = true;
@@ -548,6 +515,8 @@ void Priklady::Priklad2Filtrovanie()
 		}
 	}
 	delete tabulkaNaPracovanie;
+	std::wcin.ignore(256, '\n');
+
 	return;
 }
 
@@ -937,47 +906,11 @@ void Priklady::FiltrovaniePreTriedenie4(structures::SortedSequenceTable<std::wst
 
 		if (filter == 1 && !typ) {
 			typ = true;
-			std::wcout << L"Vyberte si uzemnu jednotku:" << std::endl;
-			std::wcout << L"1. Stat: L" << std::endl << L"2. Kraj" << std::endl << L"3. Okres" << std::endl << L"4. Obec" << std::endl;
-			int vyber;
-			TypUzemnejJednotky vybranyTyp;
-			bool vybrane = false;
-			while (!vybrane) {
-				std::wcout << L"Zadajte jedno z cisiel: " << std::endl;
-				std::wcin >> vyber;
-				switch (vyber)
-				{
-				case 1:
-					vybranyTyp = TypUzemnejJednotky::Stat;
-					break;
-				case 2:
-					vybranyTyp = TypUzemnejJednotky::Kraj;
-					vybrane = true;
-					break;
-				case 3:
-					vybranyTyp = TypUzemnejJednotky::Okres;
-					vybrane = true;
-					break;
-				case 4:
-					vybranyTyp = TypUzemnejJednotky::Obec;
-					vybrane = true;
-					break;
-				}
-				FilterTyp* fTyp = new FilterTyp(vybranyTyp);
-				fTyp->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-				vybrane = true;
-				delete fTyp;
-			}
+			TypFiltrovanie(table);
 		}
 		else if (filter == 2 && !prislusnost) {
 			prislusnost = true;
-			std::wstring nazov = L"";
-			std::wcout << std::endl << L"Zadajte nazov vyssej uzemnej jednotky ku ktorej maju vybrane uzemne jednotky prisluchat" << std::endl;
-			std::wcin >> nazov;
-			FilterPrislusnost* fPrislusnost = new FilterPrislusnost(nazov, true);
-			fPrislusnost->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-			delete fPrislusnost;
-
+			PrislusnostFiltrovanie(table);
 
 		}
 		else if (filter == 3 && (uloha == 'a') && !filterNavyse) {
@@ -1113,46 +1046,12 @@ void Priklady::FiltrovaniePreTriedenie3(structures::SortedSequenceTable<std::wst
 
 		if (filter == 1 && !typ) {
 			typ = true;
-			std::wcout << L"Vyberte si uzemnu jednotku: " << std::endl;
-			std::wcout << L"1. Stat: " << std::endl << L"2. Kraj" << std::endl << L"3. Okres" << std::endl << L"4. Obec" << std::endl;
-			int vyber;
-			TypUzemnejJednotky vybranyTyp;
-			bool vybrane = false;
-			while (!vybrane) {
-				std::wcout << L"Zadajte jedno z cisiel: " << std::endl;
-				std::wcin >> vyber;
-				switch (vyber)
-				{
-				case 1:
-					vybranyTyp = TypUzemnejJednotky::Stat;
-					break;
-				case 2:
-					vybranyTyp = TypUzemnejJednotky::Kraj;
-					vybrane = true;
-					break;
-				case 3:
-					vybranyTyp = TypUzemnejJednotky::Okres;
-					vybrane = true;
-					break;
-				case 4:
-					vybranyTyp = TypUzemnejJednotky::Obec;
-					vybrane = true;
-					break;
-				}
-				FilterTyp* fTyp = new FilterTyp(vybranyTyp);
-				fTyp->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-				vybrane = true;
-				delete fTyp;
-			}
+			TypFiltrovanie(table);
+			
 		}
 		else if (filter == 2 && !prislusnost) {
 			prislusnost = true;
-			std::wstring nazov = L"";
-			std::wcout << std::endl << L"Zadajte nazov vyssej uzemnej jednotky ku ktorej maju vybrane uzemne jednotky prisluchat" << std::endl;
-			std::wcin >> nazov;
-			FilterPrislusnost* fPrislusnost = new FilterPrislusnost(nazov, true);
-			fPrislusnost->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-			delete fPrislusnost;
+			PrislusnostFiltrovanie(table);
 
 
 		}
@@ -1228,7 +1127,7 @@ void Priklady::FiltrovaniePreTriedenie3(structures::SortedSequenceTable<std::wst
 
 }
 
-void Priklady::FiltrovaniePreVyber(structures::SequenceTable<std::wstring, UzemnaJednotka*>* table)
+void Priklady::FiltrovaniePreVyber(structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table)
 {
 	int filter = -1;
 	bool pokracuj = false;
@@ -1238,9 +1137,9 @@ void Priklady::FiltrovaniePreVyber(structures::SequenceTable<std::wstring, Uzemn
 
 	while (!pokracuj) {
 		if (!typ)
-			std::wcout << L"1 - Filtrovat podla typu" << std::endl;
+			std::wcout << L"[1] Filtrovat podla typu" << std::endl;
 		if (!prislusnost)
-			std::wcout << L"2 - Filtrovat podla prislusnosti" << std::endl;
+			std::wcout << L"[2] - Filtrovat podla prislusnosti" << std::endl;
 		
 		std::wcout << L"0 - Pokracovat" << std::endl;
 
@@ -1248,55 +1147,71 @@ void Priklady::FiltrovaniePreVyber(structures::SequenceTable<std::wstring, Uzemn
 
 		if (filter == 1 && !typ) {
 			typ = true;
-			std::wcout << L"Vyberte si uzemnu jednotku:" << std::endl;
-			std::wcout << L"1. Stat: L" << std::endl << L"2. Kraj" << std::endl << L"3. Okres" << std::endl << L"4. Obec" << std::endl;
-			int vyber;
-			TypUzemnejJednotky vybranyTyp;
-			bool vybrane = false;
-			while (!vybrane) {
-				std::wcout << L"Zadajte jedno z cisiel: " << std::endl;
-				std::wcin >> vyber;
-				if(vyber >= 1 && vyber <= 4)
-					vybrane = true;
-
-
-				switch (vyber)
-				{
-				case 1:
-					vybranyTyp = TypUzemnejJednotky::Stat;
-					break;
-				case 2:
-					vybranyTyp = TypUzemnejJednotky::Kraj;
-					vybrane = true;
-					break;
-				case 3:
-					vybranyTyp = TypUzemnejJednotky::Okres;
-					vybrane = true;
-					break;
-				case 4:
-					vybranyTyp = TypUzemnejJednotky::Obec;
-					vybrane = true;
-					break;
-				}
-				FilterTyp* fTyp = new FilterTyp(vybranyTyp);
-				fTyp->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-				delete fTyp;
-			}
+			TypFiltrovanie(table);
 		}
 		else if (filter == 2 && !prislusnost) {
 			prislusnost = true;
-			std::wstring nazov = L"";
-			std::wcout << std::endl << L"Zadajte nazov vyssej uzemnej jednotky ku ktorej maju vybrane uzemne jednotky prisluchat" << std::endl;
-			std::wcin >> nazov;
-			FilterPrislusnost* fPrislusnost = new FilterPrislusnost(nazov, true);
-			fPrislusnost->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
-			delete fPrislusnost;
+			PrislusnostFiltrovanie(table);
 		}
 		else if (filter == 0)
 			pokracuj = true;
 	}
 
 	return;
+}
+
+void Priklady::TypFiltrovanie(structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table)
+{
+	std::wcout << L"Vyberte si uzemnu jednotku: " << std::endl;
+	std::wcout << L"[1] Stat" << std::endl << L"[2] Kraj" << std::endl << L"[3] Okres" << std::endl << L"[4] Obec" << std::endl;
+	int vyber;
+	TypUzemnejJednotky vybranyTyp;
+	bool vybrane = false;
+	while (!vybrane) {
+		std::wcout << L"Zadajte jedno z cisiel: " << std::endl;
+		std::wcin >> vyber;
+		switch (vyber)
+		{
+		case 1:
+			vybranyTyp = TypUzemnejJednotky::Stat;
+			break;
+		case 2:
+			vybranyTyp = TypUzemnejJednotky::Kraj;
+			vybrane = true;
+			break;
+		case 3:
+			vybranyTyp = TypUzemnejJednotky::Okres;
+			vybrane = true;
+			break;
+		case 4:
+			vybranyTyp = TypUzemnejJednotky::Obec;
+			vybrane = true;
+			break;
+		}
+		FilterTyp* fTyp = new FilterTyp(vybranyTyp);
+		fTyp->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
+		delete fTyp;
+		vybrane = true;
+	}
+}
+
+void Priklady::PrislusnostFiltrovanie(structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>* table)
+{
+	std::wstring nazov;
+	std::wcout << std::endl << L"Zadajte nazov vyssej uzemnej jednotky ku ktorej maju vybrane uzemne jednotky prisluchat" << std::endl;
+	std::wcin.ignore();
+	getline(std::wcin, nazov);
+	UzemnaJednotka* data;
+	bool najdene = tab_all_sorted->tryFind(nazov, data);
+	if (!najdene) {
+		std::wcout << std::endl << L"Uzemna jednotka s takymto nazvom nebola najdena." << std::endl;
+	}
+	else {
+		FilterPrislusnost* fPrislusnost = new FilterPrislusnost(data, true);
+		fPrislusnost->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
+		delete fPrislusnost;
+	}
+
 }
 
 std::wstring Priklady::VypisEnumTyp(TypUzemnejJednotky typ)

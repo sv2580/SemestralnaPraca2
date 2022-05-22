@@ -17,11 +17,9 @@ private:
 public:
 	~Obec();
 	Obec(TypUzemnejJednotky typ, std::wstring nazov, UzemnaJednotka* celok);
-	bool patriDoCelku(VyssiCelok* celok);
 
 
 	// Inherited via UzemnaJednotka
-	virtual const bool patriDoCelku(UzemnaJednotka* celok) const override;
 
 
 	virtual const int getVzdelaniePocet(TypVzdelania typ) const override;
@@ -55,15 +53,6 @@ public:
 
 };
 
-
-inline bool Obec::patriDoCelku(VyssiCelok* celok) {
-	return this->_vyssiCelok == celok;
-}
-
-inline const bool Obec::patriDoCelku(UzemnaJednotka* celok) const
-{
-	return _vyssiCelok == celok || _vyssiCelok->getVyssiCelok() == celok || _vyssiCelok->getVyssiCelok()->getVyssiCelok() == celok; 
-}
 
 inline const int Obec::getVzdelaniePocet(TypVzdelania typ) const
 {

@@ -51,7 +51,6 @@ public:
 	}
 
 	// Inherited via UzemnaJednotka
-	virtual const bool patriDoCelku(UzemnaJednotka* celok) const override;
 
 
 	virtual const int getVzdelaniePocet(TypVzdelania typ) const override;
@@ -90,10 +89,6 @@ inline void VyssiCelok::VypocitajVzdelania()
 {
 }
 
-inline const bool VyssiCelok::patriDoCelku(UzemnaJednotka* celok) const
-{
-	return _vyssiCelok == celok;
-}
 
 inline const int VyssiCelok::getVzdelaniePocet(TypVzdelania typ) const
 {

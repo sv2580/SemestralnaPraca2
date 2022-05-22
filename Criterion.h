@@ -39,21 +39,19 @@ inline TypUzemnejJednotky CriterionTyp::evaluate(const UzemnaJednotka& object) {
 
 class CriterionPrislusnost : public CriterionUzemnaJednotka<bool> {
 public:
-	CriterionPrislusnost(std::wstring celok);
+	CriterionPrislusnost(UzemnaJednotka* celok);
 private: 
-	std::wstring _vyssiCelok;
+	UzemnaJednotka* _vyssiCelok;
 	virtual bool evaluate(const UzemnaJednotka& object) override;
 };
 
-inline CriterionPrislusnost::CriterionPrislusnost(std::wstring celok)
+inline CriterionPrislusnost::CriterionPrislusnost(UzemnaJednotka* celok)
 {
 	_vyssiCelok = celok;
 }
 
 inline bool CriterionPrislusnost::evaluate(const UzemnaJednotka& object) {
-	return object.getVyssiCelok()->getNazov() == _vyssiCelok || 
-		object.getVyssiCelok()->getVyssiCelok()->getNazov() == _vyssiCelok || 
-		object.getVyssiCelok()->getVyssiCelok()->getVyssiCelok()->getNazov() == _vyssiCelok;
+	return object.patriDoCelku(_vyssiCelok);
 }
 
 class CriterionVzdelaniePocet : public CriterionUzemnaJednotka<int> {

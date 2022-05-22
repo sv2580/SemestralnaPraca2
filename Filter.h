@@ -129,7 +129,7 @@ public:
 
 class FilterPrislusnost : public Filter_value<UzemnaJednotka, bool> {
 public:
-	FilterPrislusnost(std::wstring celok, bool prislusnost) :
+	FilterPrislusnost(UzemnaJednotka* celok, bool prislusnost) :
 		Filter_value(new CriterionPrislusnost(celok), prislusnost) {}
 };
 
