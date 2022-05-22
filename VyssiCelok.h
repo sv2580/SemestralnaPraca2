@@ -8,7 +8,7 @@ class VyssiCelok : public UzemnaJednotka {
 protected:
 	structures::ArrayList<UzemnaJednotka*>* _nizsieCelky = new structures::ArrayList<UzemnaJednotka*>();
 	structures::Array<int>* _vzdelanie = new structures::Array<int>(8);
-	int pocetObyvatelov = -1;
+	int pocetObyvatelov = 0;
 
 
 public:
@@ -31,23 +31,23 @@ public:
 	}
 	
 	void VypocitajVzdelania();
-
 	structures::ArrayList<UzemnaJednotka*>& getZoznamNizsieCelky() {
-		return *_nizsieCelky;
+	return *_nizsieCelky;
 	}
 
-	void const setNizsieCelky(structures::ArrayList<UzemnaJednotka*>* zoznam) {
-		this->_nizsieCelky = zoznam;
+	void addPocetObyvatelov(int pocet) {
+		pocetObyvatelov += pocet;
 	}
+
+
 
 	void addNizsiCelok(UzemnaJednotka* nizsiCelok) {
 		this->_nizsieCelky->add(nizsiCelok);
-
-		pocetObyvatelov += nizsiCelok->getPocetSpolu();
+		/*pocetObyvatelov += nizsiCelok->getPocetSpolu();
 		for (int i = 0; i < 8; i++)
 		{
 			_vzdelanie->at(i) = 0;
-		}
+		}*/
 	}
 
 	// Inherited via UzemnaJednotka
@@ -77,6 +77,7 @@ public:
 	void addVzdelanie(TypVzdelania typ, int pocet) {
 		int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(typ);
 		_vzdelanie->at(index) += pocet;
+		pocetObyvatelov += pocet;
 		if (this->getVyssiCelok() != nullptr) {
 			VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(this->_vyssiCelok);
 			vyssiCelok->addVzdelanie(typ, pocet);
@@ -85,9 +86,6 @@ public:
 	}
 };
 
-inline void VyssiCelok::VypocitajVzdelania()
-{
-}
 
 
 inline const int VyssiCelok::getVzdelaniePocet(TypVzdelania typ) const
@@ -155,6 +153,6 @@ inline const int VyssiCelok::getIntervalVekPocet(Pohlavie pohlavie, int min, int
 
 inline const double VyssiCelok::getIntervalVekPodiel(Pohlavie pohlavie, int min, int max) const
 {
-	return (double)(this->getIntervalVekPocet(pohlavie, min, max) / this->getPocetSpolu()) * 100;
+	return (((double)getIntervalVekPocet(pohlavie, min, max) / pocetObyvatelov) * 100);
 }
 

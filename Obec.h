@@ -110,7 +110,7 @@ inline const double Obec::getVekPodiel(Pohlavie pohlavie, int vek) const
 	if (pocetObyvatelov == 0) {
 		return 0;
 	}
-	return (double)( _vek->at(index)->getPocet() / this->getPocetSpolu())*100;
+	return ((double) _vek->at(index)->getPocet() / this->getPocetSpolu())*100;
 }
 
 inline const int Obec::getVekovaSkupinaPocet(VekovaSkupina vekovaSkupina) const
@@ -141,7 +141,7 @@ inline const int Obec::getVekovaSkupinaPocet(VekovaSkupina vekovaSkupina) const
 
 inline const double Obec::getVekovaSkupinaPodiel(VekovaSkupina vekovaSkupina) const
 {
-	return (double)(this->getVekovaSkupinaPocet(vekovaSkupina) / this->getPocetSpolu())*100;
+	return ((double)this->getVekovaSkupinaPocet(vekovaSkupina) / this->getPocetSpolu())*100;
 }
 
 inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) const
@@ -180,7 +180,7 @@ inline const double Obec::getIntervalVekPodiel(Pohlavie pohlavie, int min, int m
 		return 0;
 	}
 
-	return (double)(this->getIntervalVekPocet(pohlavie,min,max) / this->getPocetSpolu()) * 100;
+	return ((double)this->getIntervalVekPocet(pohlavie,min,max) / this->getPocetSpolu()) * 100;
 }
 
 inline Obec::~Obec()
