@@ -11,6 +11,7 @@ class Obec : public UzemnaJednotka {
 private:
 	structures::Array<Vzdelanie*>* _vzdelanie;
 	structures::Array<Vek*>* _vek;
+	int pocetObyvatelov = -1;
 
 
 public:
@@ -66,34 +67,34 @@ inline const bool Obec::patriDoCelku(UzemnaJednotka* celok) const
 
 inline const int Obec::getVzdelaniePocet(TypVzdelania typ) const
 {
-	for (int i = 0; i < this->_vzdelanie->size(); i++)
-	{
-		if (_vzdelanie->at(i)->getTyp() == typ) {
-			return _vzdelanie->at(i)->getPocet();
-		}
-	}
+	int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(typ);
+			return _vzdelanie->at(index)->getPocet();
+	
 }
 
 inline const double Obec::getVzdelaniePodiel(TypVzdelania typ) const
 {
-	
 	return ((double)getVzdelaniePocet(typ) / getPocetSpolu()) * 100;
 }
 
 inline const int Obec::getPocetSpolu() const
 {
-	int spolu = 0; 
-	for (int i = 0; i < this->_vzdelanie->size(); i++)
-	{
-		spolu += _vzdelanie->at(i)->getPocet();
-	}
-	return spolu;
-
+	return pocetObyvatelov;
 }
 
 inline const void Obec::setVzdelanie(structures::Array<Vzdelanie*>* vzdelanie)  
 {
 	this->_vzdelanie =  new structures::Array<Vzdelanie*>(*vzdelanie);
+
+	pocetObyvatelov = 0;
+
+	for (int i = 0; i < this->_vzdelanie->size(); i++)
+	{
+		pocetObyvatelov += _vzdelanie->at(i)->getPocet();
+		VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(this->_vyssiCelok);
+		vyssiCelok->addVzdelanie(_vzdelanie->at(i)->getTyp(), _vzdelanie->at(i)->getPocet());
+	}
+
 }
 
 inline void const Obec::setVek(structures::Array<Vek*>* vek)
@@ -115,6 +116,9 @@ inline const double Obec::getVekPodiel(Pohlavie pohlavie, int vek) const
 	int index = vek;
 	if (pohlavie == Pohlavie::Zena) {
 		index += 100;
+	}
+	if (pocetObyvatelov == 0) {
+		return 0;
 	}
 	return (double)( _vek->at(index)->getPocet() / this->getPocetSpolu())*100;
 }
@@ -180,7 +184,12 @@ inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) 
 }
 
 inline const double Obec::getIntervalVekPodiel(Pohlavie pohlavie, int min, int max) const
+
 {
+	if (pocetObyvatelov == 0) {
+		return 0;
+	}
+
 	return (double)(this->getIntervalVekPocet(pohlavie,min,max) / this->getPocetSpolu()) * 100;
 }
 
@@ -207,4 +216,6 @@ inline Obec::Obec(TypUzemnejJednotky typ, std::wstring nazov, UzemnaJednotka* ce
 	this->_typ = typ;
 	this->_nazov = nazov;
 	this->_vyssiCelok = celok;
+
+	
 }

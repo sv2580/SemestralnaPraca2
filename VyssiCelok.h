@@ -8,6 +8,8 @@ class VyssiCelok : public UzemnaJednotka {
 protected:
 	structures::ArrayList<UzemnaJednotka*>* _nizsieCelky = new structures::ArrayList<UzemnaJednotka*>();
 	structures::Array<int>* _vzdelanie = new structures::Array<int>(8);
+	int pocetObyvatelov = -1;
+
 
 public:
 	VyssiCelok(TypUzemnejJednotky typ, std::wstring nazov, VyssiCelok* vyssiCelok) : UzemnaJednotka(typ, nazov, vyssiCelok) {
@@ -15,8 +17,9 @@ public:
 
 		for (int i = 0; i < 8; i++)
 		{
-			_vzdelanie->at(i) = -1;
+			_vzdelanie->at(i) = 0;
 		}
+
 	}
 	~VyssiCelok() {
 
@@ -39,6 +42,12 @@ public:
 
 	void addNizsiCelok(UzemnaJednotka* nizsiCelok) {
 		this->_nizsieCelky->add(nizsiCelok);
+
+		pocetObyvatelov += nizsiCelok->getPocetSpolu();
+		for (int i = 0; i < 8; i++)
+		{
+			_vzdelanie->at(i) = 0;
+		}
 	}
 
 	// Inherited via UzemnaJednotka
@@ -66,6 +75,15 @@ public:
 
 	virtual const double getIntervalVekPodiel(Pohlavie pohlavie, int min, int max) const override;
 
+	void addVzdelanie(TypVzdelania typ, int pocet) {
+		int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(typ);
+		_vzdelanie->at(index) += pocet;
+		if (this->getVyssiCelok() != nullptr) {
+			VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(this->_vyssiCelok);
+			vyssiCelok->addVzdelanie(typ, pocet);
+		}
+
+	}
 };
 
 inline void VyssiCelok::VypocitajVzdelania()
@@ -79,26 +97,25 @@ inline const bool VyssiCelok::patriDoCelku(UzemnaJednotka* celok) const
 
 inline const int VyssiCelok::getVzdelaniePocet(TypVzdelania typ) const
 {
-	int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(TypVzdelania::BezNad15);
-	int result = -1;
+	int index = static_cast<typename std::underlying_type<TypVzdelania>::type>(typ);
+	/*int result = -1;
 
-	/*if (_vzdelanie->at(index) == nullptr)
+	if (_vzdelanie->at(index) == -1)
 	{
 		result = 0;
 		for (UzemnaJednotka* item : *this->_nizsieCelky) {
 			result += item->getVzdelaniePocet(typ);
 		}
 
-		_vzdelanie->at(index) = new Vzdelanie(typ,result);
+		_vzdelanie->at(index) = result;
 	}
 	else {
-		
-	}*/
+		result = _vzdelanie->at(index);
+	}
 
+	return result;*/
 
-	
-
-	return result;
+	return _vzdelanie->at(index);
 }
 
 
@@ -112,13 +129,7 @@ inline const double VyssiCelok::getVzdelaniePodiel(TypVzdelania typ) const
 
 inline const int VyssiCelok::getPocetSpolu() const
 {
-	int result = 0;
-
-	for (auto item : *this->_nizsieCelky) {
-		result += item->getPocetSpolu();
-	}
-
-	return result;
+	return pocetObyvatelov;
 }
 
 inline const int VyssiCelok::getVekPocet(Pohlavie pohlavie, int vek) const
