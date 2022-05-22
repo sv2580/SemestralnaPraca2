@@ -32,7 +32,7 @@ int main()
         std::wcout << L"[6] Priklad 3A - Triedenie podla podielu zvoleneho veku" << std::endl;
         std::wcout << L"[7] Priklad 3B - Triedenie podla poctu vekovej skupiny" << std::endl;
         std::wcout << L"[8] Priklad 4A - Najdenie najlepsieho s najmensim poctom vekovej skupiny" << std::endl;
-        std::wcout << L"[9]. Priklad 4B - Najdenie najlepsieho s najvacsim poctom vekovej skupiny" << std::endl;
+        std::wcout << L"[9] Priklad 4B - Najdenie najlepsieho s najvacsim poctom vekovej skupiny" << std::endl;
 
         std::wcin >> priklad;
 

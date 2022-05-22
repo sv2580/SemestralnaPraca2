@@ -6,12 +6,18 @@
 #include "Vzdelanie.h"
 #include "Vek.h"
 
+const int PREDPRODUKTIVNI_MAX = 14;
+const int PRODUKTIVNI_MAX = 64;
+const int POPRODUKTIVNI_MAX = 100;
+const int POCET_TYPOV_VZDELANI = 8;
+const int POCET_ROKOV = 100;
+
 
 class Obec : public UzemnaJednotka {
 private:
 	structures::Array<Vzdelanie*>* _vzdelanie;
 	structures::Array<Vek*>* _vek;
-	int pocetObyvatelov = -1;
+	int pocetObyvatelov = 0;
 
 
 public:
@@ -119,20 +125,20 @@ inline const int Obec::getVekovaSkupinaPocet(VekovaSkupina vekovaSkupina) const
 	int max = 0;
 	if (vekovaSkupina == VekovaSkupina::Predproduktivni) {
 		min = 0;
-		max = 14;
+		max = PREDPRODUKTIVNI_MAX;
 	} else if (vekovaSkupina == VekovaSkupina::Produktivni) {
-		min = 15;
-		max = 64;
+		min = PREDPRODUKTIVNI_MAX + 1;
+		max = PRODUKTIVNI_MAX;
 	} else if (vekovaSkupina == VekovaSkupina::Poproduktivni) {
-		min = 65;
-		max = 100;
+		min = PRODUKTIVNI_MAX + 1;
+		max = POPRODUKTIVNI_MAX;
 	}
 
 	int pocet = 0;
 	for (int i = min; i < max; i++)
 	{
 		pocet += _vek->at(i)->getPocet();
-		pocet += _vek->at(100 + i)->getPocet();
+		pocet += _vek->at(POCET_ROKOV + i)->getPocet();
 	}
 
 	return pocet;
@@ -141,6 +147,9 @@ inline const int Obec::getVekovaSkupinaPocet(VekovaSkupina vekovaSkupina) const
 
 inline const double Obec::getVekovaSkupinaPodiel(VekovaSkupina vekovaSkupina) const
 {
+	if (pocetObyvatelov == 0) {
+		return 0;
+	}
 	return ((double)this->getVekovaSkupinaPocet(vekovaSkupina) / this->getPocetSpolu())*100;
 }
 
@@ -152,8 +161,8 @@ inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) 
 		return -1;
 
 	if (pohlavie == Pohlavie::Zena) {
-		minindex += 100;
-		maxindex += 100;
+		minindex += POCET_ROKOV;
+		maxindex += POCET_ROKOV;
 	}
 
 	int pocet = 0;
@@ -163,12 +172,11 @@ inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) 
 	}
 
 	if (pohlavie == Pohlavie::Obe) {
-		for (int i = minindex+100; i < maxindex+100; i++)
+		for (int i = minindex+ POCET_ROKOV; i < maxindex+100; i++)
 		{
 			pocet += this->_vek->at(i)->getPocet();
 		}
 	}
-
 
 	return pocet;
 }
@@ -185,16 +193,14 @@ inline const double Obec::getIntervalVekPodiel(Pohlavie pohlavie, int min, int m
 
 inline Obec::~Obec()
 {
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < POCET_ROKOV*2; i++)
 	{
-
 		delete _vek->at(i);
 	}
 	delete _vek;
 	_vek = nullptr;
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < POCET_TYPOV_VZDELANI; i++)
 	{
-
 		delete _vzdelanie->at(i);
 	}
 	delete _vzdelanie;
