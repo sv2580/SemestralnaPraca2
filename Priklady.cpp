@@ -127,11 +127,13 @@ void Priklady::Priklad1Vypis()
 
 	while (!pokracuj) {
 
+
 		if (current->getTyp() != TypUzemnejJednotky::Stat)
 			current = cNadradena.evaluate(*current);
-		else
+		else{
 			pokracuj = true;
-
+			break;
+		}
 		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl
 			<< L"Nazov: " << cNazov.evaluate(*current) << std::endl;
 	}
@@ -241,7 +243,7 @@ void Priklady::Priklad2Filtrovanie()
 				if (maxPocet == 0) {
 					maxPocet = LLONG_MAX;
 				}
-				if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0)
+				if (minPocet <= maxPocet && minPocet >= 0 && maxPocet >= 0)
 					vybrane = true;
 			}
 			vybranePocet = Pohlavie::Zena;
@@ -293,7 +295,10 @@ void Priklady::Priklad2Filtrovanie()
 				std::wcin >> minPocet;
 				std::wcout << L"Zadajte hornu hranicu podielu [0-100]" << std::endl;
 				std::wcin >> maxPocet;
-				if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0 && minPocet <= 100 && maxPocet <= 100)
+				if (maxPocet == 0) {
+					maxPocet == 100;
+				}
+				if (minPocet <= maxPocet && minPocet >= 0 && maxPocet >= 0 && minPocet <= 100 && maxPocet <= 100)
 					vybrane = true;
 			}
 			VekovaSkupina vekovaSkupina;
@@ -406,9 +411,10 @@ void Priklady::Priklad2Filtrovanie()
 
 			if (current->getTyp() != TypUzemnejJednotky::Stat)
 				current = cNadradena.evaluate(*current);
-			else
+			else {
 				pokracuj = true;
-
+				break;
+			}
 			std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl
 				<< L"Nazov: " << cNazov.evaluate(*current) << std::endl;
 		}
@@ -664,7 +670,9 @@ void Priklady::Priklad3aTriedenieVekPodiel()
 	SortCriterion<double>* sort = new SortCriterion<double>();
 	CriterionIntVekPodiel* cVek = new CriterionIntVekPodiel(pohlavie, min, max);
 	CriterionNazov cNazov;
-	CriterionIntVekPocet cPocet(pohlavie, min, max);
+	CriterionIntVekPocet cPocetZeny(Pohlavie::Zena, min, max);
+	CriterionIntVekPocet cPocetMuzi(Pohlavie::Muz, min, max);
+
 
 	int filter;
 	while (!pokracovat) {
@@ -683,8 +691,8 @@ void Priklady::Priklad3aTriedenieVekPodiel()
 	{
 		std::wcout << cNazov.evaluate(*uzemnaJednotka->accessData()) << std::endl;
 		std::wcout << L"Pocet muzov medzi rokmi " + std::to_wstring(min) + L" - " + std::to_wstring(max) + L" : " +
-			std::to_wstring(cPocet.evaluate(*uzemnaJednotka->accessData())) << std::endl;
-		std::wcout << L"Pocet zien medzi rokmi " + std::to_wstring(cPocet.evaluate(*uzemnaJednotka->accessData()))
+			std::to_wstring(cPocetMuzi.evaluate(*uzemnaJednotka->accessData())) << std::endl;
+		std::wcout << L"Pocet zien medzi rokmi " + std::to_wstring(cPocetZeny.evaluate(*uzemnaJednotka->accessData()))
 			<< std::endl;
 		std::wcout << L"Podiel " + VypisEnumPohlavie(pohlavie) + L" : " +
 			std::to_wstring(cVek->evaluate(*uzemnaJednotka->accessData())) << std::endl;
@@ -841,9 +849,10 @@ void Priklady::Priklad4aNajmensiaVekovaSkupina()
 
 		if (current->getTyp() != TypUzemnejJednotky::Stat)
 			current = cNadradena.evaluate(*current);
-		else
+		else {
 			pokracuj = true;
-
+			break;
+		}
 		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl << L"Nazov: ";
 		std::wcout << current->getNazov() << std::endl;
 	}
@@ -915,8 +924,10 @@ void Priklady::Priklad4bNajvacsiaVekovaSkupina()
 
 		if (current->getTyp() != TypUzemnejJednotky::Stat)
 			current = cNadradena.evaluate(*current);
-		else
+		else {
 			pokracuj = true;
+			break;
+		}
 		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl << L"Nazov: ";
 		std::wcout << current->getNazov() << std::endl;
 	}
@@ -1181,6 +1192,9 @@ void Priklady::VzdelaniePocetFiltrovanie(structures::SortedSequenceTable<std::ws
 	if (max == 0) {
 		max = INT_MAX;
 	}
+
+	if (min <= max && min >= 0 && max >= 0)
+		vybrane = true;
 	FilterIntPocet* fPocet = new FilterIntPocet(vybranyTyp, min, max);
 	fPocet->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
 	delete fPocet;
@@ -1208,12 +1222,17 @@ void Priklady::VzdelaniePodielFiltrovanie(structures::SortedSequenceTable<std::w
 	}
 	double min;
 	double max;
-	std::wcout << L"Zadajte dolnu hranicu podielu [0-100]" << std::endl;
-	std::wcin >> min;
-	std::wcout << L"Zadajte hornu hranicu podielu [0-100] (pokial zadate 0, horna hranica bude 100%)";
-	std::wcin >> max;
-	if (max == 0) {
-		max = LLONG_MAX;
+	vybrane = false;
+	while (!vybrane) {
+		std::wcout << L"Zadajte dolnu hranicu podielu [0-100]" << std::endl;
+		std::wcin >> min;
+		std::wcout << L"Zadajte hornu hranicu podielu [0-100] (pokial zadate 0, horna hranica bude 100%)";
+		std::wcin >> max;
+		if (max == 0) {
+			max = 100;
+		}
+		if (min <= max && min >= 0 && max >= 0 && min <= 100 && max <= 100)
+			vybrane = true;
 	}
 	FilterIntPodiel* fPodiel = new FilterIntPodiel(vybranyTyp, min, max);
 	fPodiel->filterTable(table, new structures::SortedSequenceTable<std::wstring, UzemnaJednotka*>);
@@ -1245,9 +1264,9 @@ void Priklady::VekovaSkupinaPocetFiltrovanie(structures::SortedSequenceTable<std
 		std::wcout << L"Zadajte hornu hranicu poctu (pokial zadate 0, horna hranica bude maximalna)" << std::endl;
 		std::wcin >> maxPocet;
 		if (maxPocet == 0) {
-			maxPocet = LLONG_MAX;
+			maxPocet = INT_MAX;
 		}
-		if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0)
+		if (minPocet <= maxPocet && minPocet >= 0 && maxPocet >= 0)
 			vybrane = true;
 	}
 	VekovaSkupina vekovaSkupina;
@@ -1294,7 +1313,7 @@ void Priklady::VekPodielFiltrovanie(structures::SortedSequenceTable<std::wstring
 		std::wcin >> minVek;
 		std::wcout << L"Zadajte hornu vekovu hranicu [0 - 100]" << std::endl;
 		std::wcin >> maxVek;
-		if (minVek < maxVek && minVek >= 0 && minVek <= 100 && maxVek >= 0 && maxVek <= 100)
+		if (minVek <= maxVek && minVek >= 0 && minVek <= 100 && maxVek >= 0 && maxVek <= 100)
 			vybrane = true;
 	}
 	vybrane = false;
@@ -1304,7 +1323,7 @@ void Priklady::VekPodielFiltrovanie(structures::SortedSequenceTable<std::wstring
 		std::wcin >> minPocet;
 		std::wcout << L"Zadajte hornu hranicu podielu [0 - 100]" << std::endl;
 		std::wcin >> maxPocet;
-		if (minPocet < maxPocet && minPocet >= 0 && maxPocet >= 0 && minPocet <= 100 && maxPocet <= 100)
+		if (minPocet <= maxPocet && minPocet >= 0 && maxPocet >= 0 && minPocet <= 100 && maxPocet <= 100)
 			vybrane = true;
 	}
 	if (cislo == 2) {
