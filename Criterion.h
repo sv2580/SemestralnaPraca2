@@ -80,43 +80,6 @@ inline double CriterionVzdelaniePodiel::evaluate(const UzemnaJednotka& object) {
 }
 
 
-class CriterionVekPocet : public CriterionUzemnaJednotka<int> {
-private:
-	Pohlavie _pohlavie;
-	int _vek;
-public:
-	CriterionVekPocet(Pohlavie pohlavie, int vek) : _pohlavie(pohlavie), 
-	_vek(vek) {};
-
-	// Inherited via CriterionUzemnaJednotka
-	virtual int evaluate(const UzemnaJednotka& object) override;
-	//int evaluate(const UzemnaJednotka& object) override;
-};
-
-
-inline int CriterionVekPocet::evaluate(const UzemnaJednotka& object)
-{
-	return object.getVekPocet(_pohlavie, _vek);
-}
-
-
-class CriterionVekPodiel : public CriterionUzemnaJednotka<double> {
-private:
-	Pohlavie _pohlavie;
-	int _vek;
-
-public:
-	CriterionVekPodiel(Pohlavie pohlavie, int vek) : _pohlavie(pohlavie),
-		_vek(vek) {};
-	double evaluate(const UzemnaJednotka& object) override;
-};
-
-inline double CriterionVekPodiel::evaluate(const UzemnaJednotka& object) {
-	return object.getVekPodiel(_pohlavie, _vek);
-}
-
-
-
 
 class CriterionIntVekPocet : public CriterionUzemnaJednotka<int> {
 private:

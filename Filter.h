@@ -134,17 +134,6 @@ public:
 };
 
 
-class FilterPocet : public Filter_value<UzemnaJednotka, int> {
-public:
-	FilterPocet(TypVzdelania typ, int pocet) :
-		Filter_value(new CriterionVzdelaniePocet(typ), pocet) {}
-};
-
-class FilterPodiel: public Filter_value<UzemnaJednotka, double> {
-public:
-	FilterPodiel(TypVzdelania typ, double pocet) :
-		Filter_value(new CriterionVzdelaniePodiel(typ), pocet) {}
-};
 
 class FilterIntPocet : public Filter_interval<UzemnaJednotka, int> {
 public:
@@ -157,18 +146,6 @@ public:
 	FilterIntPodiel(TypVzdelania typ, double min, double max) :
 		Filter_interval(new CriterionVzdelaniePodiel(typ), min, max) {}
 };
-/*
-class FilterIntVekPocet : public Filter_interval<UzemnaJednotka, int> {
-public:
-	FilterIntVekPocet(Pohlavie pohlavie, int vek, int min, int max) :
-		Filter_interval(new CriterionVekPocet(pohlavie,vek), min, max) {}
-};
-
-class FilterIntVekPodiel : public Filter_interval<UzemnaJednotka, double> {
-public:
-	FilterIntVekPodiel(Pohlavie pohlavie, int vek, double min, double max) :
-		Filter_interval(new CriterionVekPodiel(pohlavie, vek), min, max) {}
-};*/
 
 class FilterIntVekPocet : public Filter_interval<UzemnaJednotka, int> {
 public:

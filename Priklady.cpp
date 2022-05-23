@@ -205,11 +205,11 @@ void Priklady::Priklad2Filtrovanie()
 				{
 					std::wcout << std::to_wstring(i + 1) + L". " + VypisEnumVzdelanie(this->typyVzdelania->at(i)) << std::endl;
 				}
+
 				std::wcin >> cisloTypu;
-				if (cisloTypu > 0 && cisloTypu <= 8)
+				if (cisloTypu > 0 && cisloTypu <= this->typyVzdelania->size())
 				{
 					vybranyTyp = typyVzdelania->at(cisloTypu - 1);
-
 					vybrane = true;
 				}
 			}
@@ -217,7 +217,7 @@ void Priklady::Priklad2Filtrovanie()
 			int max;
 			std::wcout << L"Zadajte dolnu hranicu poctu" << std::endl;
 			std::wcin >> min;
-			std::wcout << L"Zadajte hornu hranicu poctu (pokial zadate 0, horna hranica bude maximalna)";
+			std::wcout << L"Zadajte hornu hranicu poctu (pokial zadate 0, horna hranica bude maximalna)" << std::endl;
 			std::wcin >> max;
 			if (max == 0) {
 				max = INT_MAX;
