@@ -33,16 +33,10 @@
     <ClCompile Include="structures\utils.cpp">
       <Filter>Header Files\Structures</Filter>
     </ClCompile>
-    <ClCompile Include="VyssiCelok.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Priklady.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Criterion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,9 +116,6 @@
     <ClInclude Include="structures\heap_monitor.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="Vek.h">
-      <Filter>Header Files\UzemneJednotky</Filter>
-    </ClInclude>
     <ClInclude Include="SelectionCriterion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -133,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Okres.h">
       <Filter>Header Files\UzemneJednotky</Filter>
+    </ClInclude>
+    <ClInclude Include="Vek.h">
+      <Filter>Header Files\Structures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

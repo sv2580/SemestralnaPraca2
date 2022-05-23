@@ -34,7 +34,7 @@ void Input::InputKraje(structures::SortedSequenceTable<std::wstring, Kraj*>* tab
 		if (key != L"*****") {
 			Kraj* kraj = new Kraj(TypUzemnejJednotky::Kraj, nazov, stat);
 			table->insert(key, kraj);
-			stat->addNizsiCelok(kraj);
+			//stat->addNizsiCelok(kraj);
 		}
 	}
 	file.close();
@@ -72,7 +72,7 @@ void Input::InputOkresy(structures::SortedSequenceTable<std::wstring, Okres*>* t
 			VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(data);
 
 			Okres* okres = new Okres(TypUzemnejJednotky::Okres, nazov, vyssiCelok);
-			vyssiCelok->addNizsiCelok(okres);
+		//	vyssiCelok->addNizsiCelok(okres);
 
 			table->insert(key, okres);
 		}
@@ -150,7 +150,7 @@ void Input::InputObce(structures::SortedSequenceTable<std::wstring, Obec*>* tabl
 			VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(data);
 
 			Obec* obec = new Obec(TypUzemnejJednotky::Obec, nazov, vyssiCelok);
-			vyssiCelok->addNizsiCelok(obec);
+			//vyssiCelok->addNizsiCelok(obec);
 
 			obec->setVzdelanie(pole);
 			table->insert(key, obec);

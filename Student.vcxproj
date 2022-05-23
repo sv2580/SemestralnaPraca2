@@ -140,14 +140,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Criterion.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Priklady.cpp" />
     <ClCompile Include="structures\structure.cpp" />
     <ClCompile Include="structures\utils.cpp" />
     <ClCompile Include="structures\vector.cpp" />
-    <ClCompile Include="VyssiCelok.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Criterion.h" />

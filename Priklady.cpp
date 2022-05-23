@@ -820,9 +820,9 @@ void Priklady::Priklad3bTriedenieVekovaSkupinaPocet()
 
 		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " + 
 			std::to_wstring(cSkupinaPodielPred.evaluate(*uzemnaJednotka->accessData())) << std::endl;
-		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " +
+		std::wcout << L"Podiel poètu vekovej skupiny produktivni " +
 			std::to_wstring(cSkupinaPodielPro.evaluate(*uzemnaJednotka->accessData())) << std::endl;
-		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " + 
+		std::wcout << L"Podiel poètu vekovej skupiny ppproduktivni " + 
 			std::to_wstring(cSkupinaPodielPo.evaluate(*uzemnaJednotka->accessData())) << std::endl;
 	}
 
@@ -929,9 +929,9 @@ void Priklady::Priklad4bNajvacsiaVekovaSkupina()
 
 	if (cislo == 2)
 		vekovaSkupina = VekovaSkupina::Poproduktivni;
-	CriterionVekovaSkupinaPodiel cSkupinaPodielPred(VekovaSkupina::Predproduktivni);
-	CriterionVekovaSkupinaPodiel cSkupinaPodielPro(VekovaSkupina::Produktivni);
-	CriterionVekovaSkupinaPodiel cSkupinaPodielPo(VekovaSkupina::Poproduktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPodielPred(VekovaSkupina::Predproduktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPodielPro(VekovaSkupina::Produktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPodielPo(VekovaSkupina::Poproduktivni);
 	CriterionNazov cNazov;
 	CriterionTyp cTyp;
 	SelectionMaxVekovaSkupina<std::wstring>* select = new SelectionMaxVekovaSkupina<std::wstring>(vekovaSkupina);

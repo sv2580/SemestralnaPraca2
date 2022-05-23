@@ -2,14 +2,21 @@
 #include <string>
 #include "EnumTyp.h"
 #include "structures/array.h"
+
+const int PREDPRODUKTIVNI_MAX = 14;
+const int PRODUKTIVNI_MAX = 64;
+const int POPRODUKTIVNI_MAX = 100;
+const int POCET_TYPOV_VZDELANI = 8;
+const int POCET_ROKOV = 100;
+
+
+
 class UzemnaJednotka {
 protected:
 	std::wstring _nazov;
 	TypUzemnejJednotky _typ;
 	UzemnaJednotka* _vyssiCelok;
-	//int _produktivni = 0;
-	//int _poproduktivni = 0;
-	//int _predproduktivni = 0;
+
 
 public:
 
@@ -33,7 +40,6 @@ public:
 		this->_vyssiCelok = celok;
 	}
 
-
 	virtual const bool patriDoCelku(UzemnaJednotka* celok) const {
 		bool result = false;
 		const UzemnaJednotka* current = getVyssiCelok();
@@ -48,7 +54,7 @@ public:
 	}
 
 
-	virtual const UzemnaJednotka* getVyssiCelok() const {
+	virtual UzemnaJednotka* getVyssiCelok() const {
 		return this->_vyssiCelok;
 	};	
 	
@@ -57,8 +63,6 @@ public:
 	virtual const int getVzdelaniePocet(TypVzdelania typ) const = 0;
 	virtual const double getVzdelaniePodiel(TypVzdelania typ) const = 0;
 
-	virtual const int getVekPocet(Pohlavie pohlavie, int vek) const = 0;
-	virtual const double getVekPodiel(Pohlavie pohlavie, int vek) const = 0;
 
 	virtual const int getIntervalVekPocet(Pohlavie pohlavie, int min, int max) const = 0;
 	virtual const double getIntervalVekPodiel(Pohlavie pohlavie, int min, int max) const = 0;

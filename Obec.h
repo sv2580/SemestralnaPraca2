@@ -6,12 +6,6 @@
 #include "Vzdelanie.h"
 #include "Vek.h"
 
-const int PREDPRODUKTIVNI_MAX = 14;
-const int PRODUKTIVNI_MAX = 64;
-const int POPRODUKTIVNI_MAX = 100;
-const int POCET_TYPOV_VZDELANI = 8;
-const int POCET_ROKOV = 100;
-
 
 class Obec : public UzemnaJednotka {
 private:
@@ -25,34 +19,21 @@ public:
 	Obec(TypUzemnejJednotky typ, std::wstring nazov, UzemnaJednotka* celok);
 
 
-	// Inherited via UzemnaJednotka
-
-
 	virtual const int getVzdelaniePocet(TypVzdelania typ) const override;
 
 	virtual const double getVzdelaniePodiel(TypVzdelania typ) const override;
 
-
-	// Inherited via UzemnaJednotka
 	virtual const int getPocetSpolu() const override;
 
 
 	void const setVzdelanie(structures::Array<Vzdelanie*>* vzdelanie);
 	void const setVek(structures::Array<Vek*>* vek);
 
-
-
-	// Inherited via UzemnaJednotka
-	virtual const int getVekPocet(Pohlavie pohlavie, int vek) const override;
-
-	virtual const double getVekPodiel(Pohlavie pohlavie, int vek) const override;
-
 	virtual const int getVekovaSkupinaPocet(VekovaSkupina vekovaSkupina) const override;
 
 	virtual const double getVekovaSkupinaPodiel(VekovaSkupina vekovaSkupina) const override;
 
 
-	// Inherited via UzemnaJednotka
 	virtual const int getIntervalVekPocet(Pohlavie pohlavie, int min, int max) const override;
 
 	virtual const double getIntervalVekPodiel(Pohlavie pohlavie, int min, int max) const override;
@@ -88,7 +69,7 @@ inline const void Obec::setVzdelanie(structures::Array<Vzdelanie*>* vzdelanie)
 	{
 		pocetObyvatelov += _vzdelanie->at(i)->getPocet();
 		VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(this->_vyssiCelok);
-		vyssiCelok->addVzdelanie(_vzdelanie->at(i)->getTyp(), _vzdelanie->at(i)->getPocet());
+		vyssiCelok->addVzdelanie(i, _vzdelanie->at(i)->getPocet());
 	}
 
 }
@@ -96,28 +77,14 @@ inline const void Obec::setVzdelanie(structures::Array<Vzdelanie*>* vzdelanie)
 inline void const Obec::setVek(structures::Array<Vek*>* vek)
 {
 	this->_vek = new structures::Array<Vek*>(*vek);
+
+	for (int i = 0; i < this->_vek->size(); i++)
+	{
+		VyssiCelok* vyssiCelok = dynamic_cast<VyssiCelok*>(this->_vyssiCelok);
+		vyssiCelok->addVek(i, _vek->at(i)->getPocet());
+	}
 }
 
-inline const int Obec::getVekPocet(Pohlavie pohlavie, int vek) const
-{
-	int index = vek;
-	if(pohlavie == Pohlavie::Zena){
-		index += 100;
-	}
-	return _vek->at(index)->getPocet();
-}
-
-inline const double Obec::getVekPodiel(Pohlavie pohlavie, int vek) const
-{
-	int index = vek;
-	if (pohlavie == Pohlavie::Zena) {
-		index += 100;
-	}
-	if (pocetObyvatelov == 0) {
-		return 0;
-	}
-	return ((double) _vek->at(index)->getPocet() / this->getPocetSpolu())*100;
-}
 
 inline const int Obec::getVekovaSkupinaPocet(VekovaSkupina vekovaSkupina) const
 {
@@ -157,7 +124,7 @@ inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) 
 {
 	int minindex = min;
 	int maxindex = max;
-	if (min > max || min < 0 || min > 100 || max < 0 || max > 100)
+	if (min > max || min < 0 || min > POCET_ROKOV || max < 0 || max > 100)
 		return -1;
 
 	if (pohlavie == Pohlavie::Zena) {
@@ -172,7 +139,7 @@ inline const int Obec::getIntervalVekPocet(Pohlavie pohlavie, int min, int max) 
 	}
 
 	if (pohlavie == Pohlavie::Obe) {
-		for (int i = minindex+ POCET_ROKOV; i < maxindex+100; i++)
+		for (int i = minindex+ POCET_ROKOV; i < maxindex+ POCET_ROKOV; i++)
 		{
 			pocet += this->_vek->at(i)->getPocet();
 		}

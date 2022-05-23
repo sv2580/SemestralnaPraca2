@@ -16,8 +16,6 @@ public:
 };
 
 
-
-
 class CriterionNazov : public CriterionUzemnaJednotka<std::wstring>{
 public:
 
@@ -26,6 +24,14 @@ public:
 	}
 };
 
+
+class CriterionNadradena: public CriterionUzemnaJednotka<UzemnaJednotka*> {
+public:
+
+	virtual UzemnaJednotka* evaluate(const UzemnaJednotka& object) override {
+		return object.getVyssiCelok();
+	}
+};
 
 
 class CriterionTyp : public CriterionUzemnaJednotka<TypUzemnejJednotky> {
@@ -128,7 +134,6 @@ inline int CriterionVekovaSkupinaPocet::evaluate(const UzemnaJednotka& object)
 }
 
 
-
 class CriterionVekovaSkupinaPodiel: public CriterionUzemnaJednotka<double>{
 private:
 	VekovaSkupina _skupina;
@@ -142,3 +147,4 @@ public:
 inline double CriterionVekovaSkupinaPodiel::evaluate(const UzemnaJednotka& object) {
 	return object.getVekovaSkupinaPodiel(_skupina);
 }
+
