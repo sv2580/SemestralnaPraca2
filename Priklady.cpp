@@ -58,13 +58,9 @@ Priklady::~Priklady()
 	delete table_okres;
 	table_obec = nullptr;
 	table_okres = nullptr;
-
 	delete typyVzdelania;
-
 	typyVzdelania = nullptr;
-
 	delete tab_all_sorted;
-
 	tab_all_sorted = nullptr;
 
 }
@@ -95,32 +91,40 @@ void Priklady::Priklad1Vypis()
 		}
 	}
 
-	const UzemnaJednotka* current = data;
 
+	CriterionNazov cNazov;
+	CriterionTyp cTyp;
+	CriterionVekovaSkupinaPocet cSkupinaPocetPred(VekovaSkupina::Predproduktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPocetPro(VekovaSkupina::Produktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPocetPo(VekovaSkupina::Poproduktivni);
+
+	const UzemnaJednotka* current = data;
 	pokracuj = false;
 	while (!pokracuj) {
 
-		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(current->getTyp()) << std::endl << L"Nazov: ";
-		std::wcout << current->getNazov() << std::endl;
+		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl
+		<< L"Nazov: "  << cNazov.evaluate(*current) << std::endl;
 
 		std::wcout << L" Hodnoty vzdelania: " << std::endl;
 
 
 		for (int i = 0; i < this->typyVzdelania->size(); ++i)
 		{
+			CriterionVzdelaniePocet cVzdelaniePocet(this->typyVzdelania->at(i));
+
 			std::wcout << L" * " + VypisEnumVzdelanie(this->typyVzdelania->at(i)) + L" : " +
-				std::to_wstring(current->getVzdelaniePocet(this->typyVzdelania->at(i))) << std::endl;
+				std::to_wstring(cVzdelaniePocet.evaluate(*current)) << std::endl;
 		}
 
 
 		std::wcout << L" Hodnoty vekovovych skupin: " << std::endl;
 
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Predproduktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Predproduktivni)) << std::endl;
+			std::to_wstring(cSkupinaPocetPred.evaluate(*current)) << std::endl;
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Produktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Produktivni)) << std::endl;
+			std::to_wstring(cSkupinaPocetPro.evaluate(*current)) << std::endl;
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Poproduktivni)) << std::endl;
+			std::to_wstring(cSkupinaPocetPo.evaluate(*current)) << std::endl;
 
 
 		if (current->getTyp() != TypUzemnejJednotky::Stat)
@@ -130,7 +134,6 @@ void Priklady::Priklad1Vypis()
 	}
 
 	std::wcout << std::endl;
-
 
 	return;
 }
@@ -459,6 +462,19 @@ void Priklady::Priklad2Filtrovanie()
 		return;
 	}
 
+
+	CriterionNazov cNazov;
+	CriterionTyp cTyp;
+	CriterionVekovaSkupinaPocet cSkupinaPocetPred(VekovaSkupina::Predproduktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPocetPro(VekovaSkupina::Produktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPocetPo(VekovaSkupina::Poproduktivni);
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPred(VekovaSkupina::Predproduktivni);
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPro(VekovaSkupina::Produktivni);
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPo(VekovaSkupina::Poproduktivni);
+	CriterionIntVekPocet cVekPocet(vybranePocet, minVekPocet, maxVekPocet);
+	CriterionIntVekPodiel cVekPodiel(vybranePodiel, minVekPodiel, maxVekPodiel);
+
+
 	for (structures::TableItem<std::wstring, UzemnaJednotka*>* item : *tabulkaNaPracovanie) 
 	{
 		const UzemnaJednotka* current = item->accessData();
@@ -466,16 +482,18 @@ void Priklady::Priklad2Filtrovanie()
 		pokracuj = false;
 		while (!pokracuj) {
 
-			std::wcout << std::endl << L"Typ: " + VypisEnumTyp(current->getTyp()) << std::endl << L"Nazov: ";
-			std::wcout << current->getNazov() << std::endl;
+			std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl
+				<< L"Nazov: " << cNazov.evaluate(*current) << std::endl;
 
 			if (vzdelaniePocet) {
 				std::wcout << L"Hodnoty vzdelania: " << std::endl;
 
 				for (int i = 0; i < this->typyVzdelania->size(); ++i)
 				{
+					CriterionVzdelaniePocet cVzdelaniePocet(this->typyVzdelania->at(i));
+
 					std::wcout << L" * " + VypisEnumVzdelanie(this->typyVzdelania->at(i)) + L" : " +
-						std::to_wstring(current->getVzdelaniePocet(this->typyVzdelania->at(i))) << std::endl;
+						std::to_wstring(cVzdelaniePocet.evaluate(*current)) << std::endl;
 				}
 			}
 
@@ -484,8 +502,10 @@ void Priklady::Priklad2Filtrovanie()
 				std::wcout <<  L"Hodnoty vzdelania: " << std::endl;
 				for (int i = 0; i < this->typyVzdelania->size(); ++i)
 				{
+					CriterionVzdelaniePodiel cVzdelaniePodiel(this->typyVzdelania->at(i));
+
 					std::wcout << L" * " + VypisEnumVzdelanie(this->typyVzdelania->at(i)) + L" : " +
-						std::to_wstring(current->getVzdelaniePodiel(this->typyVzdelania->at(i))) << std::endl;
+						std::to_wstring(cVzdelaniePodiel.evaluate(*current)) << std::endl;
 				}
 			}
 
@@ -493,34 +513,34 @@ void Priklady::Priklad2Filtrovanie()
 				std::wcout << L"Hodnoty vekovovych skupin: " << std::endl;
 
 				std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Predproduktivni) + L" : " +
-					std::to_wstring(current->getVekovaSkupinaPodiel(VekovaSkupina::Predproduktivni)) << std::endl;
+					std::to_wstring(cSkupinaPodielPred.evaluate(*current)) << std::endl;
 				std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Produktivni) + L" : " +
-					std::to_wstring(current->getVekovaSkupinaPodiel(VekovaSkupina::Produktivni)) << std::endl;
+					std::to_wstring(cSkupinaPodielPro.evaluate(*current)) << std::endl;
 				std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
-					std::to_wstring(current->getVekovaSkupinaPodiel(VekovaSkupina::Poproduktivni)) << std::endl;
+					std::to_wstring(cSkupinaPodielPo.evaluate(*current)) << std::endl;
 			}
 
 			if (vekovaSkupinaPodiel) {
-				std::wcout << L"Hodnoty vekovovych skupin: " << std::endl;
+				std::wcout << L"Hodnoty vekovych skupin: " << std::endl;
 
 				std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Predproduktivni) + L" : " +
-					std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Predproduktivni)) << std::endl;
+					std::to_wstring(cSkupinaPocetPred.evaluate(*current)) << std::endl;
 				std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Produktivni) + L" : " +
-					std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Produktivni)) << std::endl;
+					std::to_wstring(cSkupinaPocetPro.evaluate(*current)) << std::endl;
 				std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
-					std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Poproduktivni)) << std::endl;
+					std::to_wstring(cSkupinaPocetPo.evaluate(*current)) << std::endl;
 			}
 
 			if (vekPocet) {
 				std::wcout << L" Pocet kriteria veku medzi rokmi "  + std::to_wstring(minVekPocet)  
 					+ L" - " + std::to_wstring(maxVekPocet) + L" pre pohlavie: " + VypisEnumPohlavie(vybranePocet) 
-					+ L" : " << current->getIntervalVekPocet(vybranePocet,minVekPocet,maxVekPocet) << std::endl;
+					+ L" : " << std::to_wstring(cVekPocet.evaluate(*current)) << std::endl;
 			}
 
 			if (vekPodiel) {
 				std::wcout << L" Podiel kriteria veku medzi rokmi " + std::to_wstring(minVekPodiel)
 					+ L" - " + std::to_wstring(maxVekPodiel) + L" pre pohlavie: " + VypisEnumPohlavie(vybranePodiel)
-					+ L" : " << current->getIntervalVekPodiel(vybranePodiel, minVekPodiel, maxVekPodiel) << std::endl;
+					+ L" : " << std::to_wstring(cVekPodiel.evaluate(*current)) << std::endl;
 			}
 			
 			if (current->getTyp() != TypUzemnejJednotky::Stat)
@@ -575,7 +595,7 @@ void Priklady::Priklad3aTriedenieNazvu() {
 
 	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *tabulkaNaPracovanie)
 	{
-		std::wcout << uzemnaJednotka->accessData()->getNazov() << std::endl;
+		std::wcout << cNazov->evaluate(*uzemnaJednotka->accessData()) << std::endl;
 	}
 
 	delete sort;
@@ -607,6 +627,8 @@ void Priklady::Priklad3bTriedeniePoctu()
 
 	SortCriterion<int>* sort = new SortCriterion<int>();
 	CriterionVzdelaniePocet* cPocet = new CriterionVzdelaniePocet(vzdelanie);
+	CriterionNazov cNazov;
+
 
 	int filter;
 	while (!pokracovat) {
@@ -623,8 +645,8 @@ void Priklady::Priklad3bTriedeniePoctu()
 
 	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *tabulkaNaPracovanie)
 	{
-		std::wcout << uzemnaJednotka->accessData()->getNazov() + L" poèet " + VypisEnumVzdelanie(vzdelanie) +
-	      L" : " + std::to_wstring(uzemnaJednotka->accessData()->getVzdelaniePocet(vzdelanie)) << std::endl;
+		std::wcout << cNazov.evaluate(*uzemnaJednotka->accessData()) + L" poèet " + VypisEnumVzdelanie(vzdelanie) +
+	      L" : " + std::to_wstring(cPocet->evaluate(*uzemnaJednotka->accessData())) << std::endl;
 	}
 
 	delete sort;
@@ -654,7 +676,7 @@ void Priklady::Priklad3cTriedeniePodielu()
 	delete table;
 	std::wcout << L"[1] Vzostupne " << std::endl << L"[2] Zostupne" << std::endl;
 
-
+	CriterionNazov cNazov;
 	SortCriterion<double>* sort = new SortCriterion<double>();
 	CriterionVzdelaniePodiel* cPodiel = new CriterionVzdelaniePodiel(vzdelanie);
 
@@ -673,8 +695,10 @@ void Priklady::Priklad3cTriedeniePodielu()
 
 	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *tabulkaNaPracovanie)
 	{
-		std::wcout << uzemnaJednotka->accessData()->getNazov() + L" podiel " + VypisEnumVzdelanie(vzdelanie) +
-			L" : " + std::to_wstring(uzemnaJednotka->accessData()->getVzdelaniePodiel(vzdelanie)) << std::endl;
+		std::wcout << cNazov.evaluate(*uzemnaJednotka->accessData()) + L" podiel " + VypisEnumVzdelanie(vzdelanie) +
+			L" : " + std::to_wstring(cPodiel->evaluate(*uzemnaJednotka->accessData())) << std::endl;
+
+
 	}
 
 	delete sort;
@@ -710,6 +734,8 @@ void Priklady::Priklad3aTriedenieVekPodiel()
 
 	SortCriterion<double>* sort = new SortCriterion<double>();
 	CriterionIntVekPodiel* cVek = new CriterionIntVekPodiel(pohlavie,min,max);
+	CriterionNazov cNazov;
+	CriterionIntVekPocet cPocet(pohlavie, min, max);
 
 	int filter;
 	while (!pokracovat) {
@@ -726,11 +752,13 @@ void Priklady::Priklad3aTriedenieVekPodiel()
 
 	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *tabulkaNaPracovanie)
 	{
-		std::wcout << uzemnaJednotka->accessData()->getNazov() << std::endl;
-		std::wcout << L"Pocet muzov medzi rokmi " + std::to_wstring(min) + L" - " + std::to_wstring(max) +L" : " + std::to_wstring(uzemnaJednotka->accessData()->getIntervalVekPocet(Pohlavie::Muz, min, max)) << std::endl;
-		std::wcout << L"Pocet zien medzi rokmi " + std::to_wstring(uzemnaJednotka->accessData()->getIntervalVekPocet(Pohlavie::Zena, min, max)) << std::endl;
+		std::wcout << cNazov.evaluate(*uzemnaJednotka->accessData()) << std::endl;
+		std::wcout << L"Pocet muzov medzi rokmi " + std::to_wstring(min) + L" - " + std::to_wstring(max) +L" : " +
+		std::to_wstring(cPocet.evaluate(*uzemnaJednotka->accessData())) << std::endl;
+		std::wcout << L"Pocet zien medzi rokmi " + std::to_wstring(cPocet.evaluate(*uzemnaJednotka->accessData()))
+			<< std::endl;
 		std::wcout << L"Podiel " + VypisEnumPohlavie(pohlavie) + L" : " + 
-			std::to_wstring(uzemnaJednotka->accessData()->getIntervalVekPodiel(pohlavie, min, max)) << std::endl;
+			std::to_wstring(cVek->evaluate(*uzemnaJednotka->accessData())) << std::endl;
 
 	}
 
@@ -765,10 +793,12 @@ void Priklady::Priklad3bTriedenieVekovaSkupinaPocet()
 
 	bool pokracovat = false;
 	std::wcout << L"[1] Vzostupne " << std::endl << L"[2] Zostupne" << std::endl;
-
+	CriterionNazov cNazov;
 	SortCriterion<int>* sort = new SortCriterion<int>();
 	CriterionVekovaSkupinaPocet* cVek = new CriterionVekovaSkupinaPocet(vekSkupina);
-
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPred(VekovaSkupina::Predproduktivni);
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPro(VekovaSkupina::Produktivni);
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPo(VekovaSkupina::Poproduktivni);
 	int filter;
 	while (!pokracovat) {
 		std::wcin >> filter;
@@ -784,13 +814,16 @@ void Priklady::Priklad3bTriedenieVekovaSkupinaPocet()
 
 	for (structures::TableItem<std::wstring, UzemnaJednotka*>* uzemnaJednotka : *tabulkaNaPracovanie)
 	{
-		std::wcout << uzemnaJednotka->accessData()->getNazov() << std::endl;
-		std::wcout << L"Poèet zvolenej vekovej skupiny " + VypisEnumVekovaSkupina(vekSkupina) + L" : " + std::to_wstring(uzemnaJednotka->accessData()->getVekovaSkupinaPocet(vekSkupina)) << std::endl;
+		std::wcout << cNazov.evaluate(*uzemnaJednotka->accessData()) << std::endl;
+		std::wcout << L"Poèet zvolenej vekovej skupiny " + VypisEnumVekovaSkupina(vekSkupina) + L" : " +
+			std::to_wstring(cVek->evaluate(*uzemnaJednotka->accessData())) << std::endl;
 
-		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " + std::to_wstring(uzemnaJednotka->accessData()->getVekovaSkupinaPodiel(VekovaSkupina::Predproduktivni)) << std::endl;
-		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " + std::to_wstring(uzemnaJednotka->accessData()->getVekovaSkupinaPodiel(VekovaSkupina::Produktivni)) << std::endl;
-		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " + std::to_wstring(uzemnaJednotka->accessData()->getVekovaSkupinaPodiel(VekovaSkupina::Poproduktivni)) << std::endl;
-
+		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " + 
+			std::to_wstring(cSkupinaPodielPred.evaluate(*uzemnaJednotka->accessData())) << std::endl;
+		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " +
+			std::to_wstring(cSkupinaPodielPro.evaluate(*uzemnaJednotka->accessData())) << std::endl;
+		std::wcout << L"Podiel poètu vekovej skupiny predproduktivni " + 
+			std::to_wstring(cSkupinaPodielPo.evaluate(*uzemnaJednotka->accessData())) << std::endl;
 	}
 
 	delete sort;
@@ -832,21 +865,26 @@ void Priklady::Priklad4aNajmensiaVekovaSkupina()
 	SelectionMinVekovaSkupina<std::wstring>* select = new SelectionMinVekovaSkupina<std::wstring>(vekovaSkupina);
 	UzemnaJednotka* najlepsiaUzemnaJednotka = select->selectBest(tabulkaNaPracovanie, INT_MAX);
 	const UzemnaJednotka* current = najlepsiaUzemnaJednotka;
-
+	CriterionNazov cNazov;
+	CriterionTyp cTyp;
+	CriterionVekovaSkupinaPocet cSkupinaPocetPred(VekovaSkupina::Predproduktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPocetPro(VekovaSkupina::Produktivni);
+	CriterionVekovaSkupinaPocet cSkupinaPocetPo(VekovaSkupina::Poproduktivni);
 	pokracuj = false;
 	while (!pokracuj) {
 
-		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(current->getTyp()) << std::endl << L"Nazov: ";
+		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl << L"Nazov: ";
 		std::wcout << current->getNazov() << std::endl;
 
 		std::wcout << L"Hodnoty vekovovych skupin: " << std::endl;
 
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Predproduktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Predproduktivni)) << std::endl;
+			std::to_wstring(cSkupinaPocetPred.evaluate(*current)) << std::endl;
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Produktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Produktivni)) << std::endl;
+			std::to_wstring(cSkupinaPocetPro.evaluate(*current)) << std::endl;
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Poproduktivni)) << std::endl;
+			std::to_wstring(cSkupinaPocetPo.evaluate(*current)) << std::endl;
+
 
 		if (current->getTyp() != TypUzemnejJednotky::Stat)
 			current = current->getVyssiCelok();
@@ -891,8 +929,11 @@ void Priklady::Priklad4bNajvacsiaVekovaSkupina()
 
 	if (cislo == 2)
 		vekovaSkupina = VekovaSkupina::Poproduktivni;
-	
-
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPred(VekovaSkupina::Predproduktivni);
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPro(VekovaSkupina::Produktivni);
+	CriterionVekovaSkupinaPodiel cSkupinaPodielPo(VekovaSkupina::Poproduktivni);
+	CriterionNazov cNazov;
+	CriterionTyp cTyp;
 	SelectionMaxVekovaSkupina<std::wstring>* select = new SelectionMaxVekovaSkupina<std::wstring>(vekovaSkupina);
 	UzemnaJednotka* najlepsiaUzemnaJednotka = (select->selectBest(tabulkaNaPracovanie, 0));
 	const UzemnaJednotka* current = najlepsiaUzemnaJednotka;
@@ -900,17 +941,20 @@ void Priklady::Priklad4bNajvacsiaVekovaSkupina()
 	pokracuj = false;
 	while (!pokracuj) {
 
-		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(current->getTyp()) << std::endl << L"Nazov: ";
+		std::wcout << std::endl << L"Typ: " + VypisEnumTyp(cTyp.evaluate(*current)) << std::endl << L"Nazov: ";
 		std::wcout << current->getNazov() << std::endl;
+
 
 		std::wcout << L" Hodnoty vekovovych skupin: " << std::endl;
 
+
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Predproduktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Predproduktivni)) << std::endl;
+			std::to_wstring(cSkupinaPodielPred.evaluate(*current)) << std::endl;
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Produktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Produktivni)) << std::endl;
+			std::to_wstring(cSkupinaPodielPro.evaluate(*current)) << std::endl;
 		std::wcout << L" * " + this->VypisEnumVekovaSkupina(VekovaSkupina::Poproduktivni) + L" : " +
-			std::to_wstring(current->getVekovaSkupinaPocet(VekovaSkupina::Poproduktivni)) << std::endl;
+			std::to_wstring(cSkupinaPodielPo.evaluate(*current)) << std::endl;
+
 
 		if (current->getTyp() != TypUzemnejJednotky::Stat)
 			current = current->getVyssiCelok();
